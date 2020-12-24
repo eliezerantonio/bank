@@ -1,18 +1,10 @@
 'use strict';
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const SECRET = 'DSFGSD453435sdgfhdfg%&¨*#¨$%#sdgfsd';
 const {
-    Model,
-    Op
+    Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-    class Client extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
+    class Employee extends Model {
+
         static associate(models) {
             // define association here
         }
@@ -28,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
             }
             if (query.email) where.email = q.query.email;
 
-            const entities = await Client.findAndCountAll({
+            const entities = await Employee.findAndCountAll({
                 where: where,
                 limit: limit,
                 offset: offset
@@ -44,9 +36,9 @@ module.exports = (sequelize, DataTypes) => {
             };
         }
         static async getId(id) {
-            return await Client.findByPk(id, {
+            return await Employee.findByPk(id, {
                 /*  include: [{
-                    model: this.sequelize.models.ClientSkill,
+                    model: this.sequelize.models.EmployeeSkill,
                     as: "Contas",
 
                     include: [{
@@ -59,27 +51,27 @@ module.exports = (sequelize, DataTypes) => {
         }
         static async verifyLogin(email, password) {
             try {
-                let Client = await Client.findOne({
+                let Employee = await Employee.findOne({
                     where: {
                         email: email
                     }
                 });
-                if (!Client) {
+                if (!Employee) {
                     throw new Error("Email nao enontrado");
                 }
-                if (!bcrypt.compareSync(password, Client.password)) {
+                if (!bcrypt.compareSync(password, Employee.password)) {
                     throw new Error("Senha nao confere");
                 }
 
                 //verificar se usuario esta logado
                 let token = jwt.sign({
-                    id: Client.id
+                    id: Employee.id
                 }, SECRET, {
                     expiresIn: '1d'
                 })
 
                 return {
-                    Client: Client,
+                    Employee: Employee,
                     token: token
                 }
             } catch (error) {
@@ -97,9 +89,8 @@ module.exports = (sequelize, DataTypes) => {
             delete values.password;
             return values;
         }
-
     };
-    Client.init({
+    Employee.init({
         name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -123,25 +114,6 @@ module.exports = (sequelize, DataTypes) => {
                 }
             }
         },
-
-        genre: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-
-                isAlphanumeric: {
-
-                    msg: "Genero: digite caracteres de A-Z"
-                },
-                len: {
-                    args: [7, 10],
-                    msg: "Genero: No minimo deve conter  7 caracteres"
-                },
-                notNull: {
-                    msg: "Genero: deve ser informado"
-                }
-            }
-        },
         email: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -151,15 +123,12 @@ module.exports = (sequelize, DataTypes) => {
             },
 
             validate: {
-                len: [7, 10] | {
+                len: {
+                    args: [7, 10],
+
                     msg: "No minimo deve conter  7 caracteres"
                 },
-                notNull: {
-                    msg: " O E-mail dever informado"
-                },
-                isEmail: {
-                    msg: "E-mail val"
-                }
+
             }
 
         },
@@ -178,60 +147,31 @@ module.exports = (sequelize, DataTypes) => {
             }
 
         },
-        bi: {
+        genre: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
-
             validate: {
+
                 isAlphanumeric: {
-                    msg: "BI: apenas letras e numeros"
 
-                },
-
-                notNull: {
-                    msg: "BI: dever informado"
-                }
-            }
-
-        },
-
-        birthDate: {
-            allowNull: false,
-            type: DataTypes.DATE,
-            validate: {
-                notNull: {
-                    msg: "Data de nascimento não pode ser null"
-                },
-                isDate: {
-                    msg: "Data invalida"
-                },
-                isBefore: {
-                    args: "2003-01-01",
-                    msg: "Clientes devem ser apenas maiores de idade"
-                }
-            },
-
-        },
-
-        phone: {
-            type: DataTypes.STRING,
-            validate: {
-
-                isNumeric: {
-
-                    msg: "Telefone: digite caracteres de 1-9"
+                    msg: "Genero: digite caracteres de A-Z"
                 },
                 len: {
-                    args: [9, 9],
-                    msg: "Telefone  deve conter 9 caracteres"
+                    args: [7, 10],
+                    msg: "Genero: No minimo deve conter  7 caracteres"
+                },
+                notNull: {
+                    msg: "Genero: deve ser informado"
                 }
             }
+        },
+        accessLevel: {
 
+            type: DataTypes.INTEGER
         }
     }, {
         sequelize,
-        modelName: 'Client',
+        modelName: 'Employee',
     });
-    return Client;
+    return Employee;
 };
