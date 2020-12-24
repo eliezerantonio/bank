@@ -123,12 +123,12 @@ module.exports = (sequelize, DataTypes) => {
             },
 
             validate: {
-                len: {
-                    args: [7, 10],
-
-                    msg: "No minimo deve conter  7 caracteres"
+                notNull: {
+                    msg: " O E-mail dever informado"
                 },
-
+                isEmail: {
+                    msg: "E-mail val"
+                }
             }
 
         },
