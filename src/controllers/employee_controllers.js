@@ -20,7 +20,7 @@ class EmployeesController extends ResourceController {
             successResponse(res, 200, "Usuario autenticado com sucesso!", result);
         } catch (error) {
             console.log(error);
-            errorResponse(res, 500, " Nao foi possivel autenticar");
+            errorResponse(res, 500, " Nao foi possivel autenticar", error);
         }
     }
 
