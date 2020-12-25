@@ -1,7 +1,7 @@
 'use strict';
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const SECRET = 'DSFGSD453435sdgfhdfg%&¨*#¨$%#sdgfsd';
+const SECRET = 'DSFGSD453435kjhkjgsdgfhdfg%&¨*#¨$%#sdgfsd';
 const {
     Model,
     Op
@@ -55,27 +55,27 @@ module.exports = (sequelize, DataTypes) => {
         }
         static async verifyLogin(email, password) {
             try {
-                let Employee = await Employee.findOne({
+                let employee = await Employee.findOne({
                     where: {
                         email: email
                     }
                 });
-                if (!Employee) {
+                if (!employee) {
                     throw new Error("Email nao enontrado");
                 }
-                if (!bcrypt.compareSync(password, Employee.password)) {
+                if (!bcrypt.compareSync(password, employee.password)) {
                     throw new Error("Senha nao confere");
                 }
 
                 //verificar se usuario esta logado
                 let token = jwt.sign({
-                    id: Employee.id
+                    id: employee.id
                 }, SECRET, {
                     expiresIn: '1d'
                 })
 
                 return {
-                    Employee: Employee,
+                    employee: employee,
                     token: token
                 }
             } catch (error) {
@@ -105,7 +105,6 @@ module.exports = (sequelize, DataTypes) => {
                 },
                 len: {
                     args: [6, 20],
-
                     msg: "Nome: Minimo deve conter 6 caracteres"
                 },
                 contains: {
@@ -128,7 +127,7 @@ module.exports = (sequelize, DataTypes) => {
 
             validate: {
                 notNull: {
-                    msg: " O E-mail dever informado"
+                    msg: "E-mail dever informado"
                 },
                 isEmail: {
                     msg: "E-mail val"
