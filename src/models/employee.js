@@ -1,6 +1,10 @@
 'use strict';
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const SECRET = 'DSFGSD453435sdgfhdfg%&¨*#¨$%#sdgfsd';
 const {
-    Model
+    Model,
+    Op
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Employee extends Model {
@@ -172,6 +176,15 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         sequelize,
         modelName: 'Employee',
+        hooks: {
+            beforeSave: (employee, options) => {
+                try {
+                    bcrypt.getRounds(employee.password)
+                } catch (error) {
+                    employee.password = bcrypt.hashSync(employee.password, 10)
+                }
+            }
+        }
     });
     return Employee;
 };
