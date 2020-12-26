@@ -2,19 +2,18 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const SECRET = 'DSFGSD453435sdgfhdfg%&¨*#¨$%#sdgfsd';
+
 const {
     Model,
     Op
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Client extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
+
         static associate(models) {
-            // define association here
+            this.hasMany(models.Account, {
+                as: "Accounts"
+            })
         }
         static async search(query) {
             const limit = query.limit ? parseInt(query.limit) : 20;
@@ -45,16 +44,12 @@ module.exports = (sequelize, DataTypes) => {
         }
         static async getId(id) {
             return await Client.findByPk(id, {
-                /*  include: [{
-                    model: this.sequelize.models.ClientSkill,
-                    as: "Contas",
+                include: [{
+                    model: this.sequelize.models.Account,
+                    as: "Accounts",
 
-                    include: [{
-                        model: this.sequelize.models.Skill,
-                        as: "Conta",
 
-                    }]
-                }]*/
+                }]
             })
         }
         static async verifyLogin(email, password) {
