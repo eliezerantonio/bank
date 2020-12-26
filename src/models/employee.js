@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
             let where = {}
 
             if (query.name) where.name = {
-                [Op.like]: `%${query.name}%` //filtrando pelo nome
+                [Op.like]: `%${query.name}%`
 
             }
             if (query.email) where.email = q.query.email;
@@ -100,7 +100,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             validate: {
                 is: {
-                    args: ["^[a-z ]+$", 'i'],
+                    args: [/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/],
                     msg: "O nome de conter apenas caracteres de A-Z"
                 },
                 len: {
@@ -169,7 +169,7 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         accessLevel: {
-
+            defaultValue: 0,
             type: DataTypes.INTEGER
         }
     }, {
