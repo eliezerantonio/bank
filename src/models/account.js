@@ -59,10 +59,12 @@ module.exports = (sequelize, DataTypes) => {
         balance: {
             type: DataTypes.DOUBLE,
             allowNull: false,
+
             validate: {
 
                 min: 0,
                 isNumeric: {
+                    args: true,
                     msg: "Digite apenas numeros"
 
                 },

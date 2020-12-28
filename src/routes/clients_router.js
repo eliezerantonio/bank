@@ -31,10 +31,14 @@ router.delete('/:id', verifyAccessToken, ClientsController.bindMethod('remove'))
 router.post('/account', AccountsController.bindMethod('store'));
 
 //account UPDATE
-//router.patch('/:clientId/account/:id', AccountsController.bindMethod('update'));
+router.patch('/:clientId/account/:id', AccountsController.bindMethod('update'));
 
 //account deposit
-router.patch('/:clientId/account/:id', AccountsController.deposit);
+router.patch('/:clientId/account/deposit/:id', AccountsController.deposit);
+//account raise
+router.patch('/:clientId/account/raise/:id', AccountsController.raise);
+//account transfer
+router.patch('/:clientId/account/transfer/:id', AccountsController.transfer);
 
 // account REMOVE
 router.delete('/:clientId/account/:id', AccountsController.bindMethod('remove'));

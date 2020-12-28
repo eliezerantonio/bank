@@ -10,17 +10,24 @@ class AccountsController extends ResourceController {
             super()
             this.setModel(Account);
         }
-        //depositar
+        //REALIZAR DEPOSITO
     async deposit(req, res, next) {
+
             try {
 
                 const entityOld = await Account.getId(req.params.id);
 
-                let balance = entityOld.balance += req.body.balance;
+                if (req.body.balance > 0) {
 
-                const entityNew = await entityOld.update({ balance: balance });
-                if (entityNew !== "") {
-                    return successResponse(res, 200, `Deposito realizado com sucesso `, entityNew)
+                    let balance = entityOld.balance += req.body.balance;
+
+                    const entityNew = await entityOld.update({ balance: balance });
+                    if (entityNew !== "") {
+                        return successResponse(res, 200, `Deposito realizado com sucesso `, entityNew)
+                    }
+
+                } else {
+                    return successResponse(res, 500, `Não foi possivel Depositar  `, null)
                 }
 
 
@@ -37,19 +44,23 @@ class AccountsController extends ResourceController {
             }
 
         }
-        //Levantar
-    async rise(req, res, next) {
+        //REALIZAR LEVATAMENTO
+    async raise(req, res, next) {
+
         try {
 
             const entityOld = await Account.getId(req.params.id);
-            if (entityOld.balance > req.body.balance) {
-                let balance = entityOld.balance += req.body.balance;
+
+            //so deposita de tiver saldo
+            if (entityOld.balance >= req.body.balance && req.body.balance > 0) {
+
+                let balance = entityOld.balance -= req.body.balance;
 
                 const entityNew = await entityOld.update({ balance: balance });
                 return successResponse(res, 200, `Levantamento realizado com sucesso em `, entityNew)
 
             } else {
-                return successResponse(res, 200, `Erro: Saldo Insuficiente`, null)
+                return errorResponse(res, 500, `Erro: Saldo Insuficiente Ou Verifique o valor`, null)
 
             }
 
@@ -59,13 +70,113 @@ class AccountsController extends ResourceController {
                 return invalidResponse(res, 400, `Dados informados sao invalidos `, error)
 
             }
-            return errorResponse(res, 500, `Não foi possivel Levantrar`, error)
+
 
 
         }
 
+
+
+
     }
 
+    //ATIVAR CONTA
+    async enable() {
+            try {
+
+                const entityOld = await Account.getId(req.params.id);
+
+
+
+                let state = entityOld.state ? false : true;
+
+                const entityNew = await entityOld.update({ state: state });
+                if (entityNew !== "") {
+                    return successResponse(res, 200, `Succeso Ao ${state ? 'Activar a conta' : "Desativar a conta"} `, entityNew)
+                }
+
+            } catch (error) {
+                console.log(error)
+                if (error.name && error.name.includes('SequelizeValidation')) {
+                    return invalidResponse(res, 400, `Dados informados sao invalidos `, error)
+
+                }
+
+            }
+
+        }
+        //DESACTIVAR CONTA
+    async disable() {
+            try {
+
+                const entityOld = await Account.getId(req.params.id);
+
+
+
+                let state = req.body.state;
+
+                const entityNew = await entityOld.update({ state: state });
+                return successResponse(res, 200, `Levantamento realizado com sucesso em `, entityNew)
+
+
+            } catch (error) {
+                console.log(error)
+                if (error.name && error.name.includes('SequelizeValidation')) {
+                    return invalidResponse(res, 400, `Dados informados sao invalidos `, error)
+
+                }
+
+
+
+            }
+        }
+        // REALIZAR TRANSFERÊNCIA
+    async transfer(req, res, next) {
+
+        try {
+
+
+            //consta origem
+            const entityOld = await Account.getId(req.params.id);
+
+            //so deposita de tiver saldo
+            if (entityOld.balance >= req.body.balance && req.body.balance > 0) {
+
+                const balance = entityOld.balance -= req.body.balance;
+                const value = req.body.balance;
+
+                const entityNew2 = await entityOld.update({ balance: balance });
+                if (entityNew2 !== "") {
+
+                    // conta destino
+                    const entityOld = await Account.getId(req.body.id);
+
+                    if (req.body.balance > 0) {
+                        // conta destino
+                        const balance = entityOld.balance += req.body.balance;
+
+                        const entityNew = await entityOld.update({ balance: balance });
+                        if (entityNew !== "") {
+                            return successResponse(res, 200, `Tranferencia de ${value} KZ `, entityNew2);
+                        }
+
+                    } else {
+                        return successResponse(res, 500, `Não foi possivel Depositar  `, null);
+                    }
+                }
+
+            } else {
+                return errorResponse(res, 500, `Erro: Saldo Insuficiente Ou Verifique o valor`, null);
+
+            }
+
+
+
+        } catch (error) {
+
+        }
+
+    }
 
 }
 
