@@ -1,23 +1,52 @@
 'use strict';
 const {
-  Model
+    Model,
+    Op
+
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Card extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
-  };
-  Card.init({
-    description: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Card',
-  });
-  return Card;
+    class Card extends Model {
+
+        static associate(models) {
+
+        }
+        static async search(query) {
+            const limit = query.limit ? parseInt(query.limit) : 500
+            const offset = query.offset ? parseInt(query.offset) : 0
+
+            let where = {}
+                //filtrar por name
+            if (query.name) where.name = {
+                [Op.like]: `%${query.name}%`
+            }
+
+            const { rows, count } = await Card.findAndCountAll({
+                where: where,
+                limit: limit,
+                offset: offset
+            })
+
+            return {
+                entities: rows,
+                meta: {
+                    count: count,
+                    limit: limit,
+                    offset: offset
+                }
+            }
+
+        }
+
+        static async getId(id) {
+            return await Card.findByPk(id)
+        }
+
+    };
+    Card.init({
+        description: DataTypes.STRING
+    }, {
+        sequelize,
+        modelName: 'Card',
+    });
+    return Card;
 };

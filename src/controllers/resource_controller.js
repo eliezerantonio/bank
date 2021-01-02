@@ -42,6 +42,7 @@ class ResourceController {
 
             return successResponse(res, 200, null, entity)
         } catch (error) {
+            console.log(error)
             return errorResponse(res, 404, `Não foi possivel recuperar entidade pelo id em ${this.model.getTableName()}`, error)
 
 
