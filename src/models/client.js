@@ -47,11 +47,10 @@ module.exports = (sequelize, DataTypes) => {
                 include: [{
                     model: this.sequelize.models.Account,
                     as: "Accounts",
-
-
                 }]
             })
         }
+
         static async verifyLogin(email, password) {
             try {
                 let Client = await Client.findOne({

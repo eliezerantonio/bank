@@ -6,9 +6,6 @@ const AccountsController = require('../controllers/account_controllers')
 const verifyAccessToken = require("../middlewares/verifyAccessToken_middleware");
 
 
-
-
-
 //LOGIN
 router.post('/login', ClientsController.bindMethod('login'));
 
@@ -26,7 +23,7 @@ router.delete('/:id', verifyAccessToken, ClientsController.bindMethod('remove'))
 
 //Account
 
-
+router.get('/:clientId/account/:id', AccountsController.bindMethod('show'));
 /* account Store */
 router.post('/account', AccountsController.bindMethod('store'));
 
@@ -35,8 +32,10 @@ router.patch('/:clientId/account/:id', AccountsController.bindMethod('update'));
 
 //account deposit
 router.patch('/:clientId/account/deposit/:id', AccountsController.deposit);
+
 //account raise
 router.patch('/:clientId/account/raise/:id', AccountsController.raise);
+
 //account transfer
 router.patch('/:clientId/account/transfer/:id', AccountsController.transfer);
 

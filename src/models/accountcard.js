@@ -3,53 +3,29 @@ const {
     Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-    class Account extends Model {
+    class AccountCard extends Model {
 
         static associate(models) {
-
             this.belongsTo(models.Client, {
-                foreignKey: "clientId",
-                targetKey: "id",
-                as: "Client"
+                    foreignKey: 'accountId',
+                    targetKey: 'id',
+                    as: 'Account'
+                }),
 
-            })
-            this.hasMany(models.AccountCard, {
-                as: 'AccountCards'
-            })
-
+                this.belongsTo(models.Card, {
+                    foreignKey: 'cardId',
+                    targetKey: 'id',
+                    as: 'Card'
+                })
         }
 
         static async getId(id) {
-            return await Account.findByPk(id, {
-                include: [{
-                    model: this.sequelize.models.AccountCard,
-                    as: "AccountCards",
-
-                    include: [{
-                        model: this.sequelize.models.Card,
-                        as: "Card",
-
-                    }]
-                }]
-            })
-        }
-
-        toJSON() {
-            const values = Object.assign({}, this.get());
-
-            return {
-                id: values.id,
-                clientId: values.clientId,
-                state: values.state ? "Activo" : "Inactivo",
-                balance: values.balance
-
-            }
+            return await AccountCard.findByPk(id)
         }
 
     };
-    Account.init({
-
-        clientId: {
+    AccountCard.init({
+        accountId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             validate: {
@@ -59,11 +35,33 @@ module.exports = (sequelize, DataTypes) => {
                 notNull: {
                     msg: 'O userId deve ser informado.'
                 },
-                async isInClients(value) {
+                async isInCards(value) {
                     try {
-                        const client = await this.sequelize.models.Client.getId(value)
+                        const client = await this.sequelize.models.Account.getId(value)
                         if (!client) {
                             throw new Error('Usuario associado não pode ser encontrado');
+                        }
+                    } catch (error) {
+                        throw error;
+                    }
+                }
+            },
+        },
+        cardId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            validate: {
+                isNumeric: {
+                    msg: "Digite apenas numeros"
+                },
+                notNull: {
+                    msg: 'O cardId deve ser informado.'
+                },
+                async isInCards(value) {
+                    try {
+                        const card = await this.sequelize.models.Card.getId(value)
+                        if (!card) {
+                            throw new Error('Cartão associado não pode ser encontrado');
                         }
                     } catch (error) {
                         throw error;
@@ -76,10 +74,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
 
             validate: {
-
+                defaultValue: 0,
                 min: 0,
                 isNumeric: {
                     args: true,
+
                     msg: "Digite apenas numeros"
 
                 },
@@ -95,8 +94,8 @@ module.exports = (sequelize, DataTypes) => {
                 isIn: {
                     args: [
                         [
-                            false, //
-                            true, //Básico
+                            false, //0
+                            true, //1
 
                         ]
                     ],
@@ -106,7 +105,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     }, {
         sequelize,
-        modelName: 'Account',
+        modelName: 'AccountCard',
     });
-    return Account;
+    return AccountCard;
 };
