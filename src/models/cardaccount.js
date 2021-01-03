@@ -3,10 +3,11 @@ const {
     Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-    class AccountCard extends Model {
+    class CardAccount extends Model {
 
         static associate(models) {
-            this.belongsTo(models.Client, {
+
+            this.belongsTo(models.Account, {
                     foreignKey: 'accountId',
                     targetKey: 'id',
                     as: 'Account'
@@ -20,11 +21,11 @@ module.exports = (sequelize, DataTypes) => {
         }
 
         static async getId(id) {
-            return await AccountCard.findByPk(id)
+            return await CardAccount.findByPk(id)
         }
 
     };
-    AccountCard.init({
+    CardAccount.init({
         accountId: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -105,7 +106,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     }, {
         sequelize,
-        modelName: 'AccountCard',
+        modelName: 'CardAccount',
     });
-    return AccountCard;
+    return CardAccount;
 };

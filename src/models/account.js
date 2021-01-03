@@ -13,8 +13,8 @@ module.exports = (sequelize, DataTypes) => {
                 as: "Client"
 
             })
-            this.hasMany(models.AccountCard, {
-                as: 'AccountCards'
+            this.hasMany(models.CardAccount, {
+                as: 'CardAccounts'
             })
 
         }
@@ -22,8 +22,8 @@ module.exports = (sequelize, DataTypes) => {
         static async getId(id) {
             return await Account.findByPk(id, {
                 include: [{
-                    model: this.sequelize.models.AccountCard,
-                    as: "AccountCards",
+                    model: this.sequelize.models.CardAccount,
+                    as: "CardAccounts",
 
                     include: [{
                         model: this.sequelize.models.Card,
