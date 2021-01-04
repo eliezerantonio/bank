@@ -17,7 +17,7 @@ router.get('/', AccountsController.bindMethod('index'));
 // FUNCIONARIO
 router.get('/:id', AccountsController.bindMethod('show'));
 /* account Store */
-router.post('/account', AccountsController.bindMethod('store'));
+router.post('/', AccountsController.bindMethod('store'));
 
 //account UPDATE
 router.patch('/:id', AccountsController.bindMethod('update'));
@@ -35,7 +35,7 @@ router.delete('/:id', AccountsController.bindMethod('remove'));
 
 
 
-//Usuario logDO
+//Usuario logaDO
 router.get('/:clientId/:id', AccountsController.bindMethod('show'));
 
 //account raise

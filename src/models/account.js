@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
 
 
         static async search(query) {
-            console.log('gffg')
+
             const limit = query.limit ? parseInt(query.limit) : 20;
             const offset = query.offset ? parseInt(query.limit) : 0
 

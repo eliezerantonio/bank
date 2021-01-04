@@ -32,8 +32,6 @@ class AccountsController extends ResourceController {
                     return successResponse(res, 500, ` Não foi possivel Depositar `, null)
                 }
 
-
-
             } catch (error) {
                 console.log(error)
                 if (error.name && error.name.includes('SequelizeValidation')) {
