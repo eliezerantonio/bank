@@ -7,21 +7,22 @@ module.exports = (sequelize, DataTypes) => {
 
         static associate(models) {
 
-            this.belongsTo(models.Account, {
-                    foreignKey: 'accountId',
-                    targetKey: 'id',
-                    as: 'Account'
-                }),
-
-                this.belongsTo(models.Card, {
+            this.belongsTo(models.Card, {
                     foreignKey: 'cardId',
                     targetKey: 'id',
                     as: 'Card'
+                }),
+                this.belongsTo(models.Account, {
+                    foreignKey: 'accountId',
+                    targetKey: 'id',
+                    as: 'Account'
                 })
+
+
         }
 
         static async getId(id) {
-            return await CardAccount.findByPk(id)
+            return await CardAccount.findByPk(id);
         }
 
     };

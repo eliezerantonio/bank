@@ -10,21 +10,22 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
 
         }
+
         static async search(query) {
             const limit = query.limit ? parseInt(query.limit) : 500
             const offset = query.offset ? parseInt(query.offset) : 0
 
             let where = {}
                 //filtrar por name
-            if (query.name) where.name = {
-                [Op.like]: `%${query.name}%`
+            if (query.description) where.description = {
+                [Op.like]: `%${query.description}%`
             }
 
             const { rows, count } = await Card.findAndCountAll({
                 where: where,
                 limit: limit,
                 offset: offset
-            })
+            });
 
             return {
                 entities: rows,

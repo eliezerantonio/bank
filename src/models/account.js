@@ -3,6 +3,7 @@ const {
     Model,
     Op
 } = require('sequelize');
+const cardaccount = require('./cardaccount');
 module.exports = (sequelize, DataTypes) => {
     class Account extends Model {
 
@@ -22,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
 
 
         static async search(query) {
-            console.log('gffg')
+
             const limit = query.limit ? parseInt(query.limit) : 20;
             const offset = query.offset ? parseInt(query.limit) : 0
 
@@ -73,7 +74,10 @@ module.exports = (sequelize, DataTypes) => {
                 id: values.id,
                 clientId: values.clientId,
                 state: values.state ? "Activo" : "Inactivo",
-                balance: values.balance
+                balance: values.balance,
+
+                CardAccounts: values.CardAccounts
+
 
             }
         }
