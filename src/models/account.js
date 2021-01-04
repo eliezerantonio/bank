@@ -3,6 +3,7 @@ const {
     Model,
     Op
 } = require('sequelize');
+const cardaccount = require('./cardaccount');
 module.exports = (sequelize, DataTypes) => {
     class Account extends Model {
 
@@ -73,7 +74,10 @@ module.exports = (sequelize, DataTypes) => {
                 id: values.id,
                 clientId: values.clientId,
                 state: values.state ? "Activo" : "Inactivo",
-                balance: values.balance
+                balance: values.balance,
+
+                CardAccounts: values.CardAccounts
+
 
             }
         }
