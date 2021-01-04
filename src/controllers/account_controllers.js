@@ -25,13 +25,11 @@ class AccountsController extends ResourceController {
 
                     const entityNew = await entityOld.update({ balance: balance });
                     if (entityNew !== "") {
-                        return successResponse(res, 200, `
-                        Deposito realizado com sucesso `, entityNew)
+                        return successResponse(res, 200, ` Deposito realizado com sucesso `, entityNew)
                     }
 
                 } else {
-                    return successResponse(res, 500, `
-                        Não foi possivel Depositar `, null)
+                    return successResponse(res, 500, ` Não foi possivel Depositar `, null)
                 }
 
 
@@ -39,12 +37,10 @@ class AccountsController extends ResourceController {
             } catch (error) {
                 console.log(error)
                 if (error.name && error.name.includes('SequelizeValidation')) {
-                    return invalidResponse(res, 400, `
-                        Dados informados sao invalidos `, error)
+                    return invalidResponse(res, 400, ` Dados informados sao invalidos `, error)
 
                 }
-                return errorResponse(res, 500, `
-                        Não foi possivel Depositar `, error)
+                return errorResponse(res, 500, ` Não foi possivel Depositar `, error)
 
 
             }
@@ -63,20 +59,17 @@ class AccountsController extends ResourceController {
                 let balance = entityOld.balance -= req.body.balance;
 
                 const entityNew = await entityOld.update({ balance: balance });
-                return successResponse(res, 200, `
-                        Levantamento realizado com sucesso em `, entityNew)
+                return successResponse(res, 200, `Levantamento realizado com sucesso em `, entityNew)
 
             } else {
-                return errorResponse(res, 500, `
-                        Erro: Saldo Insuficiente Ou Verifique o valor `, null)
+                return errorResponse(res, 500, ` Erro: Saldo Insuficiente Ou Verifique o valor `, null)
 
             }
 
         } catch (error) {
             console.log(error)
             if (error.name && error.name.includes('SequelizeValidation')) {
-                return invalidResponse(res, 400, `
-                        Dados informados sao invalidos `, error)
+                return invalidResponse(res, 400, `Dados informados sao invalidos `, error)
 
             }
 
@@ -95,22 +88,17 @@ class AccountsController extends ResourceController {
 
                 const entityOld = await Account.getId(req.params.id);
 
-
-
                 let state = entityOld.state ? false : true;
 
                 const entityNew = await entityOld.update({ state: state });
                 if (entityNew !== "") {
-                    return successResponse(res, 200, `
-                        Succeso Ao $ { state ? 'Activar a conta' : "Desativar a conta" }
-                        `, entityNew)
+                    return successResponse(res, 200, ` Succeso Ao $ { state ? 'Activar a conta' : "Desativar a conta" } `, entityNew)
                 }
 
             } catch (error) {
                 console.log(error)
                 if (error.name && error.name.includes('SequelizeValidation')) {
-                    return invalidResponse(res, 400, `
-                        Dados informados sao invalidos `, error)
+                    return invalidResponse(res, 400, ` Dados informados sao invalidos `, error)
 
                 }
 
@@ -123,21 +111,15 @@ class AccountsController extends ResourceController {
 
                 const entityOld = await Account.getId(req.params.id);
 
-
-
                 let state = req.body.state;
 
                 const entityNew = await entityOld.update({ state: state });
-                return successResponse(res, 200, `
-                        Levantamento realizado com sucesso em `, entityNew)
-
+                return successResponse(res, 200, ` Levantamento realizado com sucesso em `, entityNew)
 
             } catch (error) {
                 console.log(error)
                 if (error.name && error.name.includes('SequelizeValidation')) {
-                    return invalidResponse(res, 400, `
-                        Dados informados sao invalidos `, error)
-
+                    return invalidResponse(res, 400, `Dados informados sao invalidos `, error)
                 }
 
 
@@ -171,20 +153,16 @@ class AccountsController extends ResourceController {
 
                         const entityNew = await entityOld.update({ balance: balance });
                         if (entityNew !== "") {
-                            return successResponse(res, 200, `
-                        Tranferencia de $ { value }
-                        KZ `, entityNew2);
+                            return successResponse(res, 200, ` Tranferencia de ${value} KZ `, entityNew2);
                         }
 
                     } else {
-                        return successResponse(res, 500, `
-                        Não foi possivel Depositar `, null);
+                        return successResponse(res, 500, ` Não foi possivel Depositar `, null);
                     }
                 }
 
             } else {
-                return errorResponse(res, 500, `
-                        Erro: Saldo Insuficiente Ou Verifique o valor `, null);
+                return errorResponse(res, 500, ` Erro: Saldo Insuficiente Ou Verifique o valor `, null);
 
             }
 
