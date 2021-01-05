@@ -1,7 +1,9 @@
 'use strict';
 const {
-    Model
+    Model,
+    Op
 } = require('sequelize');
+const cardaccount = require('./cardaccount');
 module.exports = (sequelize, DataTypes) => {
     class Account extends Model {
 
@@ -18,6 +20,37 @@ module.exports = (sequelize, DataTypes) => {
             })
 
         }
+
+
+        static async search(query) {
+
+            const limit = query.limit ? parseInt(query.limit) : 20;
+            const offset = query.offset ? parseInt(query.limit) : 0
+
+            let where = {}
+
+            if (query.name) where.name = {
+                [Op.like]: `%${query.name}%` //filtrando pelo nome
+
+            }
+
+
+            const entities = await Account.findAndCountAll({
+                where: where,
+                limit: limit,
+                offset: offset
+            })
+
+            return {
+                entities: entities.rows,
+                meta: {
+                    count: entities.count,
+                    limit: limit,
+                    offset: offset
+                }
+            };
+        }
+
 
         static async getId(id) {
             return await Account.findByPk(id, {
@@ -41,7 +74,10 @@ module.exports = (sequelize, DataTypes) => {
                 id: values.id,
                 clientId: values.clientId,
                 state: values.state ? "Activo" : "Inactivo",
-                balance: values.balance
+                balance: values.balance,
+
+                CardAccounts: values.CardAccounts
+
 
             }
         }

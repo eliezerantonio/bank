@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
                 as: "Accounts"
             })
         }
+
         static async search(query) {
             const limit = query.limit ? parseInt(query.limit) : 20;
             const offset = query.offset ? parseInt(query.limit) : 0
