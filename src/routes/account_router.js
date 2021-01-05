@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-const AccountsController = require('../controllers/account_controllers')
+const AccountsController = require('../controllers/account_controllers');
+const CardAccountsController = require('../controllers/cardaccount_controllers')
+const { route } = require('./clients_router');
     /*
     const verifyAccessToken = require('./middlewares/verifyAccessToken_middleware')
     const verifyOwner = require('./middlewares/verifyOwner_middleware')
@@ -33,6 +35,12 @@ router.patch('/transfer/:id', AccountsController.transfer);
 // account REMOVE
 router.delete('/:id', AccountsController.bindMethod('remove'));
 
+router.post('/card',CardAccountsController.bindMethod('store'))
+router.patch('/card/deposit/:id',CardAccountsController.deposit)
+router.patch('/card/raise/:id',CardAccountsController.raise)
+
+
+
 
 
 //Usuario logaDO
@@ -43,6 +51,8 @@ router.patch('/:clientId/raise/:id', AccountsController.raise);
 
 //account transfer
 router.patch('/:clientId/transfer/:id', AccountsController.transfer);
+
+
 
 
 
