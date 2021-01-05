@@ -76,7 +76,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
 
             validate: {
-                defaultValue: 0,
+               
                 min: 0,
                 isNumeric: {
                     args: true,
