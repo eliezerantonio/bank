@@ -12,8 +12,8 @@ router.get('/:id', LoanController.bindMethod('show'));
 //STORE
 router.post('/', LoanController.bindMethod('store'));
 //UPDATE
-router.patch('/:id', verifyAccessToken, LoanController.bindMethod('update'));
+router.patch('/:id', LoanController.bindMethod('update'));
 //REMOVE
-router.delete('/:id', verifyAccessToken, LoanController.bindMethod('remove'));
+router.delete('/:id', LoanController.bindMethod('remove'));
 
 module.exports = router;
