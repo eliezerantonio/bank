@@ -101,7 +101,7 @@ module.exports = (sequelize, DataTypes) => {
             validate: {
                 is: {
                     args: ["^[a-z ]+$", 'i'],
-                    msg: "O nome de conter apenas caracteres de A-Z"
+                    msg: "O nome devr conter apenas caracteres de A-Z"
                 },
                 len: {
                     args: [6, 20],
@@ -168,6 +168,13 @@ module.exports = (sequelize, DataTypes) => {
                     msg: "A senha dever informada"
                 }
             }
+
+        },
+        isEmployee: {
+            type: DataTypes.BOOLEAN,
+
+            defaultValue: false,
+            notNull: false,
 
         },
         bi: {

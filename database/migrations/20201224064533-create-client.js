@@ -22,6 +22,11 @@ module.exports = {
                 allowNull: false,
                 unique: true
             },
+            isEmployee: {
+                allowNull: false,
+                type: Sequelize.BOOLEAN,
+
+            },
             password: {
                 type: Sequelize.STRING,
                 allowNull: false,
