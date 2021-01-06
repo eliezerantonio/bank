@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
 
         static associate(models) {
             // define association here
+            this.hasMany(models.Loan, {
+                as: 'Loan'
+            })
         }
         static async search(query) {
             const limit = query.limit ? parseInt(query.limit) : 20;

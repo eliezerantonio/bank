@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             this.hasMany(models.Account, {
                 as: "Accounts"
+            }),
+            this.hasMany(models.Loan, {
+                as: 'Loan'
             })
         }
 
