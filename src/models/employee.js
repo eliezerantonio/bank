@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
         static async getId(id) {
             return await Employee.findByPk(id, {
                 include: [{
-                    model: this.sequelize.models.Account,
+                    model: this.sequelize.models.Loan,
                     as: "Loans",
 
                 }]

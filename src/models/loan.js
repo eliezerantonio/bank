@@ -108,10 +108,7 @@ module.exports = (sequelize, DataTypes) => {
                 isDate: {
                     msg: "Data invalida"
                 },
-                isBefore: {
-                    args: "2003-01-01",
-                    msg: "Clientes devem ser apenas maiores de idade"
-                }
+
             },
 
         },
