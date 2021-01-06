@@ -47,17 +47,24 @@ module.exports = (sequelize, DataTypes) => {
             };
         }
         static async getId(id) {
-            return await Client.findByPk(id, {
+            let items = await Client.findByPk(id, {
                 include: [{
-                    model: this.sequelize.models.Account,
-                    as: "Accounts",
-                }],
-                include: [{
-                    model: this.sequelize.models.Account,
-                    as: "Loans",
-                }]
+                        model: this.sequelize.models.Account,
+                        as: "Accounts",
+                    },
+                    {
+                        model: this.sequelize.models.Loan,
+                        as: "Loans",
+                    }
+
+
+                ],
+
+
+
 
             })
+            return items;
         }
 
         static async verifyLogin(email, password) {
