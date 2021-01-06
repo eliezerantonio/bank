@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // define association here
             this.hasMany(models.Loan, {
-                as: 'Loan'
+                as: 'Loans'
             })
         }
         static async search(query) {
@@ -44,16 +44,11 @@ module.exports = (sequelize, DataTypes) => {
         }
         static async getId(id) {
             return await Employee.findByPk(id, {
-                /*  include: [{
-                    model: this.sequelize.models.EmployeeSkill,
-                    as: "Contas",
+                include: [{
+                    model: this.sequelize.models.Account,
+                    as: "Loans",
 
-                    include: [{
-                        model: this.sequelize.models.Skill,
-                        as: "Conta",
-
-                    }]
-                }]*/
+                }]
             })
         }
         static async verifyLogin(email, password) {

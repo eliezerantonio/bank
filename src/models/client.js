@@ -12,11 +12,11 @@ module.exports = (sequelize, DataTypes) => {
 
         static associate(models) {
             this.hasMany(models.Account, {
-                as: "Accounts"
-            }),
-            this.hasMany(models.Loan, {
-                as: 'Loan'
-            })
+                    as: "Accounts"
+                }),
+                this.hasMany(models.Loan, {
+                    as: 'Loans'
+                })
         }
 
         static async search(query) {
@@ -51,7 +51,12 @@ module.exports = (sequelize, DataTypes) => {
                 include: [{
                     model: this.sequelize.models.Account,
                     as: "Accounts",
+                }],
+                include: [{
+                    model: this.sequelize.models.Account,
+                    as: "Loans",
                 }]
+
             })
         }
 

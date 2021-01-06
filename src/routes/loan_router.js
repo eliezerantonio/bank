@@ -3,7 +3,7 @@ var router = express.Router();
 
 const LoanController = require('../controllers/loan_controller')
 const verifyAccessToken = require("../middlewares/verifyAccessToken_middleware");
-const { route } = require('./clients_router');
+
 
 //INDEX
 router.get('/', LoanController.bindMethod('index'));
