@@ -3,7 +3,7 @@ const {
     Model,
     Op
 } = require('sequelize');
-const cardaccount = require('./cardaccount');
+
 module.exports = (sequelize, DataTypes) => {
     class Account extends Model {
 
