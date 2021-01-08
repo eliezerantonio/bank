@@ -21,14 +21,14 @@ class AccountsController extends ResourceController {
 
                 if (req.body.balance > 0) {
 
-                    if (entityOld.state){
+                    if (entityOld.state) {
                         let balance = entityOld.balance += req.body.balance;
 
-                    const entityNew = await entityOld.update({ balance: balance });
-                    if (entityNew !== "") {
-                        return successResponse(res, 200, ` Deposito realizado com sucesso `, entityNew)
-                    }
-                    }else {
+                        const entityNew = await entityOld.update({ balance: balance });
+                        if (entityNew !== "") {
+                            return successResponse(res, 200, ` Deposito realizado com sucesso `, entityNew)
+                        }
+                    } else {
                         return successResponse(res, 500, `conta desativada `, null)
 
                     }
@@ -60,21 +60,16 @@ class AccountsController extends ResourceController {
             //so deposita de tiver saldo
             if (entityOld.balance >= req.body.balance && req.body.balance > 0) {
 
-            if (entityOld.state){
-                
-                let balance = entityOld.balance -= req.body.balance;
+                if (entityOld.state) {
 
-                const entityNew = await entityOld.update({ balance: balance });
-                return successResponse(res, 200, `Levantamento realizado com sucesso em `, entityNew)
+                    let balance = entityOld.balance -= req.body.balance;
 
-             
-            }else{
-                return errorResponse(res, 500, `conta desactivada`, null)
+                    const entityNew = await entityOld.update({ balance: balance });
+                    return successResponse(res, 200, `Levantamento realizado com sucesso em `, entityNew)
 
-
-            }
-
-                
+                } else {
+                    return errorResponse(res, 500, `conta desactivada`, null)
+                }
 
             } else {
                 return errorResponse(res, 500, ` Erro: Saldo Insuficiente Ou Verifique o valor `, null)
@@ -88,12 +83,7 @@ class AccountsController extends ResourceController {
 
             }
 
-
-
         }
-
-
-
 
     }
 
@@ -137,16 +127,12 @@ class AccountsController extends ResourceController {
                     return invalidResponse(res, 400, `Dados informados sao invalidos `, error)
                 }
 
-
-
             }
         }
         // REALIZAR TRANSFERÊNCIA
     async transfer(req, res, next) {
 
-
         try {
-
 
             //consta origem
             const entityOld = await Account.getId(req.params.id);
@@ -181,8 +167,6 @@ class AccountsController extends ResourceController {
                 return errorResponse(res, 500, ` Erro: Saldo Insuficiente Ou Verifique o valor `, null);
 
             }
-
-
 
         } catch (error) {
 
