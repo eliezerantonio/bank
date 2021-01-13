@@ -53,6 +53,7 @@ router.patch('/:clientId/raise/:id', AccountsController.raise);
 //account transfer
 router.patch('/:clientId/transfer/:id', AccountsController.transfer);
 
+router.get('/moviment/:id', AccountsController.movimentFindById)
 
 
 

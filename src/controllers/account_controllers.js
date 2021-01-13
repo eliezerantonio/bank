@@ -92,6 +92,32 @@ class AccountsController extends ResourceController {
                     let balance = entityOld.balance -= req.body.balance;
 
                     const entityNew = await entityOld.update({ balance: balance });
+
+                    //salvar movimento
+                    try {
+                        await Moviment.create({
+                            accountId: entityOld.id,
+                            employeeId: req.body.token.id,
+                            balance: req.body.balance,
+                            operation: "r",
+                            state: entityOld.state
+                        });
+
+
+                    } catch (error) {
+                        if (error.name && error.name.includes('SequelizeValidation')) {
+                            return invalidResponse(res, 400, `Dados informados sao invalidos `, error)
+
+                        } else if (error.name && error.name.includes("SequelizeUniqueConstraintError")) {
+                            return invalidResponse(res, 400, `Dados informados ja existentes `, error)
+                        }
+                        console.log(error)
+                        return errorResponse(res, 500, `Não foi possivel criar Movimentos`, error)
+
+
+                    }
+
+                    //fim salvar movimento
                     return successResponse(res, 200, `Levantamento realizado com sucesso em `, entityNew)
 
                 } else {
@@ -171,6 +197,31 @@ class AccountsController extends ResourceController {
                 const value = req.body.balance;
 
                 const entityNew2 = await entityOld.update({ balance: balance });
+
+                // Transferindo
+                try {
+                    await Moviment.create({
+                        accountId: entityOld.id,
+                        employeeId: req.body.token.id,
+                        balance: req.body.balance,
+                        operation: "t",
+                        state: entityOld.state
+                    });
+
+
+                } catch (error) {
+                    if (error.name && error.name.includes('SequelizeValidation')) {
+                        return invalidResponse(res, 400, `Dados informados sao invalidos `, error)
+
+                    } else if (error.name && error.name.includes("SequelizeUniqueConstraintError")) {
+                        return invalidResponse(res, 400, `Dados informados ja existentes `, error)
+                    }
+                    console.log(error)
+                    return errorResponse(res, 500, `Não foi possivel criar Movimentos`, error)
+
+
+                }
+
                 if (entityNew2 !== "") {
 
                     // conta destino
@@ -182,6 +233,31 @@ class AccountsController extends ResourceController {
 
                         const entityNew = await entityOld.update({ balance: balance });
                         if (entityNew !== "") {
+
+                            //Conta Destino do valor transferido
+                            try {
+                                await Moviment.create({
+                                    accountId: entityOld.id,
+                                    employeeId: req.body.token.id,
+                                    balance: req.body.balance,
+                                    operation: "t",
+                                    state: entityOld.state
+                                });
+
+
+                            } catch (error) {
+                                if (error.name && error.name.includes('SequelizeValidation')) {
+                                    return invalidResponse(res, 400, `Dados informados sao invalidos `, error)
+
+                                } else if (error.name && error.name.includes("SequelizeUniqueConstraintError")) {
+                                    return invalidResponse(res, 400, `Dados informados ja existentes `, error)
+                                }
+                                console.log(error)
+                                return errorResponse(res, 500, `Não foi possivel criar Movimentos`, error)
+
+
+                            }
+
                             return successResponse(res, 200, ` Tranferencia de ${value} KZ `, entityNew2);
                         }
 
@@ -201,6 +277,14 @@ class AccountsController extends ResourceController {
 
     }
 
+    async movimentFindById(req, res, next) {
+        try {
+            const moviment = await Moviment.verifyMoviment(req.params.id);
+            return successResponse(res, 200, null, moviment);
+        } catch (error) {
+
+        }
+    }
 }
 
 module.exports = new AccountsController

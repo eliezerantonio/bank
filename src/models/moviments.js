@@ -14,12 +14,33 @@ module.exports = (sequelize, DataTypes) => {
 
                 }),
 
-                this.belongsTo(models.Employee, {
-                    foreignKey: 'employeeId',
+                this.belongsTo(models.Moviment, {
+                    foreignKey: 'movimentId',
                     targetKey: 'id',
-                    as: 'Employee'
+                    as: 'moviment'
                 })
 
+        }
+
+        static async verifyMoviment(accountId) {
+            try {
+                let moviment = await Moviment.findOne({
+                    where: {
+                        accountId: accountId
+                    }
+                });
+
+
+                if (!moviment) {
+                    throw new Error("Conta nao encontrada");
+                }
+                return {
+                    moviment: moviment,
+                }
+            } catch (error) {
+                throw error;
+
+            }
         }
     };
     Moviment.init({
