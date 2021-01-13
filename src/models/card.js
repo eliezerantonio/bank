@@ -37,15 +37,35 @@ module.exports = (sequelize, DataTypes) => {
             }
 
         }
-
+        
         static async getId(id) {
             return await Card.findByPk(id)
         }
 
     };
     Card.init({
-        description: DataTypes.STRING
-    }, {
+        description: DataTypes.STRING,
+        state: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: true,
+            validate: {
+                isIn: {
+                    args: [
+                        [
+                            false, //
+                            true, //Básico
+
+                        ]
+                    ],
+                    msg: 'São aceitos apenas dois estados 0-Nao activo 1 - Activo,'
+                }
+            }
+        }
+    }, 
+    
+    
+    
+    {
         sequelize,
         modelName: 'Card',
     });

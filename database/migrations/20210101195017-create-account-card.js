@@ -34,6 +34,10 @@ module.exports = {
                 allowNull: false,
             },
             state: {
+                allowNull:false,
+                type: Sequelize.BOOLEAN,
+                },
+            state: {
                 type: Sequelize.BOOLEAN,
                 allowNull: false,
             },
