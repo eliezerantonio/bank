@@ -11,9 +11,9 @@ router.post('/login', EmployeesController.bindMethod('login'));
 //INDEX
 router.get('/', verifyAccessManager, EmployeesController.bindMethod('index'));
 //SHOW
-router.get('/:id', verifyAccessManager, EmployeesController.bindMethod('show'));
+router.get('/:id', EmployeesController.bindMethod('show'));
 //STORE
-router.post('/', EmployeesController.bindMethod('store'));
+router.post('/', verifyAccessManager, EmployeesController.bindMethod('store'));
 //UPDATE
 router.patch('/:id', verifyAccessManager, EmployeesController.bindMethod('update'));
 //REMOVE

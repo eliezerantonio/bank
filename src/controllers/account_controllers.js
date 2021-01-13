@@ -37,9 +37,6 @@ class AccountsController extends ResourceController {
                                     state: entityOld.state
                                 });
 
-                                console.log(entity);
-
-                                return successResponse(res, 200, null, entity)
 
                             } catch (error) {
                                 if (error.name && error.name.includes('SequelizeValidation')) {
@@ -180,7 +177,7 @@ class AccountsController extends ResourceController {
                     const entityOld = await Account.getId(req.body.id);
 
                     if (req.body.balance > 0) {
-                        // conta destino
+
                         const balance = entityOld.balance += req.body.balance;
 
                         const entityNew = await entityOld.update({ balance: balance });

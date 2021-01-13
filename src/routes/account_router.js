@@ -15,30 +15,30 @@ const verifyAccessToken = require('../middlewares/verifyAccessToken_middleware')
 
 
 //Account
-router.get('/', AccountsController.bindMethod('index'));
+router.get('/', verifyAccessToken, AccountsController.bindMethod('index'));
 
 // FUNCIONARIO
-router.get('/:id', AccountsController.bindMethod('show'));
+router.get('/:id', verifyAccessToken, AccountsController.bindMethod('show'));
 /* account Store */
-router.post('/', AccountsController.bindMethod('store'));
+router.post('/', verifyAccessToken, AccountsController.bindMethod('store'));
 
 //account UPDATE
-router.patch('/:id', AccountsController.bindMethod('update'));
+router.patch('/:id', verifyAccessToken, AccountsController.bindMethod('update'));
 
 //account deposit
 router.patch('/deposit/:id', verifyAccessToken, AccountsController.deposit);
 
 //account raise
-router.patch('/raise/:id', AccountsController.raise);
+router.patch('/raise/:id', verifyAccessToken, AccountsController.raise);
 
 //account transfer
-router.patch('/transfer/:id', AccountsController.transfer);
+router.patch('/transfer/:id', verifyAccessToken, AccountsController.transfer);
 // account REMOVE
-router.delete('/:id', AccountsController.bindMethod('remove'));
+router.delete('/:id', verifyAccessToken, AccountsController.bindMethod('remove'));
 
-router.post('/card', CardAccountsController.bindMethod('store'))
-router.patch('/card/deposit/:id', CardAccountsController.deposit)
-router.patch('/card/raise/:id', CardAccountsController.raise)
+router.post('/card', verifyAccessToken, CardAccountsController.bindMethod('store'))
+router.patch('/card/deposit/:id', verifyAccessToken, CardAccountsController.deposit)
+router.patch('/card/raise/:id', verifyAccessToken, CardAccountsController.raise)
 
 
 
