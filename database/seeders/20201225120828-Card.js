@@ -6,14 +6,18 @@ module.exports = {
 
         await queryInterface.bulkInsert('Cards', [{
             description: 'Básico',
+            state:true
 
         }, {
             description: 'Internacional',
+            state:true
 
         }, {
-            description: 'Gold'
+            description: 'Gold',
+            state:true
         }, {
             description: 'Platinum',
+            state:true
         }], {});
 
     },
