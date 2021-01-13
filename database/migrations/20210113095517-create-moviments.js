@@ -29,6 +29,10 @@ module.exports = {
                 onUpdate: 'CASCADE',
                 onDelete: 'CASCADE',
             },
+            state: {
+                allowNull:false,
+                type: Sequelize.BOOLEAN,
+                },
             balance: {
                 allowNull: false,
                 type: Sequelize.DOUBLE
@@ -36,10 +40,6 @@ module.exports = {
             operation: {
                 allowNull: false,
                 type: Sequelize.STRING
-            },
-            state: {
-                allowNull: false,
-                type: Sequelize.BOOLEAN
             },
             createdAt: {
                 allowNull: false,

@@ -18,6 +18,10 @@ module.exports = {
                 onDelete: 'CASCADE',
                 allowNull: false,
             },
+            state: {
+                allowNull:false,
+                type: Sequelize.BOOLEAN,
+                },
             employeeId: {
                 type: Sequelize.INTEGER,
                 references: {

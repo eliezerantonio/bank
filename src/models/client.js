@@ -149,6 +149,22 @@ module.exports = (sequelize, DataTypes) => {
                 }
             }
         },
+        state: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: true,
+            validate: {
+                isIn: {
+                    args: [
+                        [
+                            false, //
+                            true, //Básico
+
+                        ]
+                    ],
+                    msg: 'São aceitos apenas dois estados 0-Nao activo 1 - Activo,'
+                }
+            }
+        },
         email: {
             type: DataTypes.STRING,
             allowNull: false,

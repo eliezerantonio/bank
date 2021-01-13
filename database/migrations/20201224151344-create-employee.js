@@ -26,6 +26,10 @@ module.exports = {
             genre: {
                 type: Sequelize.STRING
             },
+            state: {
+                allowNull:false,
+                type: Sequelize.BOOLEAN,
+                },
             accessLevel: {
                 type: Sequelize.INTEGER,
                 allowNull: false,

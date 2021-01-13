@@ -8,6 +8,10 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER
             },
+              state: {
+                allowNull:false,
+                type: Sequelize.BOOLEAN,
+                },
             clientId: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
