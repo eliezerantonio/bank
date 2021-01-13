@@ -4,13 +4,14 @@ var router = express.Router();
 const AccountsController = require('../controllers/account_controllers');
 const CardAccountsController = require('../controllers/cardaccount_controllers')
 const { route } = require('./clients_router');
+const verifyAccessToken = require('../middlewares/verifyAccessToken_middleware')
     /*
-    const verifyAccessToken = require('./middlewares/verifyAccessToken_middleware')
-    const verifyOwner = require('./middlewares/verifyOwner_middleware')
-    const upload = require('./middlewares/upload_middleware')
 
-    const onlyAllowsOwner = [verifyAccessToken, verifyOwner]
-*/
+        const verifyOwner = require('./middlewares/verifyOwner_middleware')
+        const upload = require('./middlewares/upload_middleware')
+
+        const onlyAllowsOwner = [verifyAccessToken, verifyOwner]
+    */
 
 
 //Account
@@ -25,7 +26,7 @@ router.post('/', AccountsController.bindMethod('store'));
 router.patch('/:id', AccountsController.bindMethod('update'));
 
 //account deposit
-router.patch('/deposit/:id', AccountsController.deposit);
+router.patch('/deposit/:id', verifyAccessToken, AccountsController.deposit);
 
 //account raise
 router.patch('/raise/:id', AccountsController.raise);
@@ -35,9 +36,9 @@ router.patch('/transfer/:id', AccountsController.transfer);
 // account REMOVE
 router.delete('/:id', AccountsController.bindMethod('remove'));
 
-router.post('/card',CardAccountsController.bindMethod('store'))
-router.patch('/card/deposit/:id',CardAccountsController.deposit)
-router.patch('/card/raise/:id',CardAccountsController.raise)
+router.post('/card', CardAccountsController.bindMethod('store'))
+router.patch('/card/deposit/:id', CardAccountsController.deposit)
+router.patch('/card/raise/:id', CardAccountsController.raise)
 
 
 
