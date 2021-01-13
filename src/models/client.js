@@ -60,9 +60,6 @@ module.exports = (sequelize, DataTypes) => {
 
                 ],
 
-
-
-
             })
             return items;
         }

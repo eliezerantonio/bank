@@ -1,11 +1,10 @@
 const Account = require('../models').Account
-const Moviment = require('../models').Moviment
 const successResponse = require('../responses/success_response');
 const errorResponse = require('../responses/error_response');
 const invalidResponse = require('../responses/invalid_response');
 const ResourceController = require("./resource_controller");
 
-class AccountsController extends ResourceController {
+class MovimentsController extends ResourceController {
 
     constructor() {
         super()
@@ -23,41 +22,15 @@ class AccountsController extends ResourceController {
                 if (req.body.balance > 0) {
 
                     if (entityOld.state) {
+
                         let balanceNew = entityOld.balance += req.body.balance;
 
                         const entityNew = await entityOld.update({ balance: balanceNew });
+
                         if (entityNew !== "") {
-                            //salvar movimento
-                            try {
-                                const entity = await Moviment.create({
-                                    accountId: entityOld.id,
-                                    employeeId: req.body.token.id,
-                                    balance: req.body.balance,
-                                    operation: "d",
-                                    state: entityOld.state
-                                });
-
-                                console.log(entity);
-
-                                return successResponse(res, 200, null, entity)
-
-                            } catch (error) {
-                                if (error.name && error.name.includes('SequelizeValidation')) {
-                                    return invalidResponse(res, 400, `Dados informados sao invalidos `, error)
-
-                                } else if (error.name && error.name.includes("SequelizeUniqueConstraintError")) {
-                                    return invalidResponse(res, 400, `Dados informados ja existentes `, error)
-                                }
-                                console.log(error)
-                                return errorResponse(res, 500, `Não foi possivel criar Movimentos`, error)
-
-
-                            }
-
-                            //fim salvar movimento
-
                             return successResponse(res, 200, ` Deposito realizado com sucesso `, entityNew)
                         }
+
                     } else {
                         return successResponse(res, 500, `conta desativada `, null)
 
@@ -206,4 +179,4 @@ class AccountsController extends ResourceController {
 
 }
 
-module.exports = new AccountsController
+module.exports = new MovimentsController
