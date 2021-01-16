@@ -1,0 +1,147 @@
+CREATE DATABASE Bank;
+USE Bank;
+
+/* Funcionarios inicio */
+
+
+
+/*DROP TRIGGER BACKUP_EMPLOYEES*/
+DELIMITER $
+CREATE TRIGGER BACKUP_EMPLOYEES
+AFTER INSERT ON Employees
+FOR EACH ROW 
+BEGIN
+     INSERT INTO EmployeBackup  VALUES(NULL,
+     NEW.id,NUll,NEW.name,NEW.email,NEW.genre,NEW.state,NEW.accessLevel,'Inserido');
+END
+$
+
+DELIMITER $
+CREATE TRIGGER BACKUP_EMPLOYEES_UPDATE
+AFTER UPDATE ON Employees
+FOR EACH ROW 
+BEGIN
+     INSERT INTO EmployeBackup  VALUES(NULL,
+     OLD.id,OLD.name,NEW.name,OLD.email,OLD.genre,OLD.state,OLD.accessLevel,'Atualizada');
+END
+$
+
+DELIMITER $
+CREATE TRIGGER BACKUP_EMPLOYEES_DELETE
+BEFORE DELETE ON Employees
+FOR EACH ROW 
+BEGIN
+     INSERT INTO EmployeBackup  VALUES(NULL,
+     OLD.id,OLD.name,NULL,OLD.email,OLD.genre,OLD.state,OLD.accessLevel,'Deletado');
+END
+$
+
+SELECT  * FROM EmployeBackup;
+SELECT  * FROM Employees
+
+/* Funcionarios Fim */
+
+
+/* Clientes */
+CREATE TABLE ClientsBackup(
+ID_CB INT PRIMARY KEY AUTO_INCREMENT,
+id INT(11),
+oldname VARCHAR(255),
+newname VARCHAR(255),
+genre VARCHAR(255),
+email VARCHAR(255),
+isEmployee TINYINT(1),
+state TINYINT(1),
+bi VARCHAR(255),
+birthDate DATETIME,
+phone VARCHAR(255),
+newphone VARCHAR(255),
+envento CHAR(11)
+);
+
+
+DELIMITER $
+CREATE TRIGGER BACKUP_CLIENT
+AFTER INSERT ON Clients
+FOR EACH ROW
+BEGIN
+    INSERT INTO ClientsBackup  VALUES(NULL,
+     NEW.id,NUll,NEW.name,NEW.genre,NEW.email,
+     NEW.isEmployee,NEW.state,NEW.bi,NEW.birthDate,NULL,NEW.phone,'Inserido');
+END
+$
+
+
+DELIMITER $
+CREATE TRIGGER BACKUP_CLIENT_UPDATE
+AFTER UPDATE ON Clients
+FOR EACH ROW
+BEGIN
+    INSERT INTO ClientsBackup  VALUES(NULL,
+     OLD.id,OLD.name,NEW.name,OLD.genre,OLD.email,
+     OLD.isEmployee,OLD.state,OLD.bi,OLD.birthDate,OLD.phone,NEW.phone,'Atualizado');
+END
+$
+
+
+DELIMITER $
+CREATE TRIGGER BACKUP_CLIENT_DELETE
+BEFORE DELETE ON Clients
+FOR EACH ROW
+BEGIN
+    INSERT INTO ClientsBackup  VALUES(NULL,
+     OLD.id,OLD.name,NULL,OLD.genre,OLD.email,
+     OLD.isEmployee,OLD.state,OLD.bi,OLD.birthDate,OLD.phone,NULL,'Deletado');
+END
+$
+
+SELECT * FROM Clients;
+SELECT * FROM ClientsBackup
+/* Clientes Fim*/
+
+
+/* Contas */
+
+CREATE TABLE AccountsBackup(
+ID_AB INT PRIMARY KEY AUTO_INCREMENT,
+id INT(11),
+state TINYINT(1),
+balance DOUBLE,
+new_balance DOUBLE
+
+);
+
+
+DELIMITER $
+CREATE TRIGGER BACKUP_ACCOUNTS
+AFTER INSERT ON Accounts
+FOR EACH ROW 
+BEGIN
+     INSERT INTO AccountsBackup  VALUES(NULL,
+     NEW.id,NEW.state,NuLL,NEW.balance);
+END
+$
+
+DELIMITER $
+CREATE TRIGGER BACKUP_ACCOUNTS_UPDATE
+AFTER UPDATE ON Accounts
+FOR EACH ROW 
+BEGIN
+	INSERT INTO AccountsBackup  VALUES(NULL,
+     OLD.id,OLD.state,OLD.balance,NEW.balance);
+END
+$
+
+DELIMITER $
+CREATE TRIGGER BACKUP_ACCOUNTS_DELETE
+BEFORE DELETE ON Accounts
+FOR EACH ROW 
+BEGIN
+	INSERT INTO AccountsBackup  VALUES(NULL,
+     OLD.id,OLD.state,OLD.balance,NULL);
+END
+$
+
+SELECT * FROM Accounts;
+SELECT * FROM AccountsBackup
+/* Contas Fim */
