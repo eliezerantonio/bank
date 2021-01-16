@@ -1,5 +1,6 @@
 {
     "development": {
+
         "username": "root",
         "password": "1223",
         "database": "Bank",

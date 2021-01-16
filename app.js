@@ -9,6 +9,7 @@ var employeeRouter = require('./src/routes/employee_router');
 var accountRouter = require('./src/routes/account_router');
 var cardRouter = require('./src/routes/card_routers');
 var loanRouter = require('./src/routes/loan_router');
+var movimentsRouter = require('./src/routes/moviment_router');
 
 var app = express();
 
@@ -23,6 +24,7 @@ app.use('/api/employee', employeeRouter);
 app.use('/api/account', accountRouter);
 app.use('/api/card', cardRouter);
 app.use('/api/loan', loanRouter);
+app.use('/api/moviment', movimentsRouter);
 
 
 module.exports = app;

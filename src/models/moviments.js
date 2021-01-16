@@ -1,6 +1,7 @@
 'use strict';
 const {
-    Model
+    Model,
+    Op
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Moviment extends Model {
@@ -14,12 +15,43 @@ module.exports = (sequelize, DataTypes) => {
 
                 }),
 
-                this.belongsTo(models.Employee, {
-                    foreignKey: 'employeeId',
+                this.belongsTo(models.Moviment, {
+                    foreignKey: 'EmployeeId',
                     targetKey: 'id',
                     as: 'Employee'
                 })
 
+        }
+
+        static async search(query) {
+
+            const limit = query.limit ? parseInt(query.limit) : 20;
+            const offset = query.offset ? parseInt(query.limit) : 0
+
+            let where = {}
+
+            if (query.accountId) where.accountId = {
+                [Op.like]: `%${query.accountId}%` //filtrando pelo nome
+
+            }
+
+
+            const entities = await Moviment.findAndCountAll({
+                where: {
+                    accountId: query
+                },
+                limit: limit,
+                offset: offset
+            })
+
+            return {
+                entities: entities.rows,
+                meta: {
+                    count: entities.count,
+                    limit: limit,
+                    offset: offset
+                }
+            };
         }
     };
     Moviment.init({

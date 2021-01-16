@@ -82,6 +82,7 @@ module.exports = (sequelize, DataTypes) => {
             }
 
         }
+
         static async verifyToken(token) {
                 return await jwt.verify(token, SECRET)
             }
