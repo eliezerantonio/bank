@@ -54,6 +54,7 @@ module.exports = (sequelize, DataTypes) => {
                     offset: offset
                 }
             };
+        }
 
     };
     Moviment.init({

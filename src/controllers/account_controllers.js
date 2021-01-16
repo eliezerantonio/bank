@@ -61,6 +61,7 @@ class AccountsController extends ResourceController {
                     }
 
                 } else {
+                    console.log(error)
                     return successResponse(res, 500, ` Não foi possivel Depositar `, null)
                 }
 
