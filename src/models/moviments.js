@@ -1,6 +1,7 @@
 'use strict';
 const {
-    Model
+    Model,
+    Op
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Moviment extends Model {
@@ -15,33 +16,45 @@ module.exports = (sequelize, DataTypes) => {
                 }),
 
                 this.belongsTo(models.Moviment, {
-                    foreignKey: 'movimentId',
+
+                    foreignKey: 'EmployeeId',
                     targetKey: 'id',
-                    as: 'moviment'
+                    as: 'Employee'
                 })
 
         }
 
-        static async verifyMoviment(accountId) {
-            try {
-                let moviment = await Moviment.findOne({
-                    where: {
-                        accountId: accountId
-                    }
-                });
 
+        static async search(query) {
 
-                if (!moviment) {
-                    throw new Error("Conta nao encontrada");
-                }
-                return {
-                    moviment: moviment,
-                }
-            } catch (error) {
-                throw error;
+            const limit = query.limit ? parseInt(query.limit) : 20;
+            const offset = query.offset ? parseInt(query.limit) : 0
+
+            let where = {}
+
+            if (query.accountId) where.accountId = {
+                [Op.like]: `%${query.accountId}%` //filtrando pelo nome
 
             }
-        }
+
+
+            const entities = await Moviment.findAndCountAll({
+                where: {
+                    accountId: query
+                },
+                limit: limit,
+                offset: offset
+            })
+
+            return {
+                entities: entities.rows,
+                meta: {
+                    count: entities.count,
+                    limit: limit,
+                    offset: offset
+                }
+            };
+
     };
     Moviment.init({
 

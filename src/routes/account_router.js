@@ -3,15 +3,15 @@ var router = express.Router();
 
 const AccountsController = require('../controllers/account_controllers');
 const CardAccountsController = require('../controllers/cardaccount_controllers')
-const { route } = require('./clients_router');
 const verifyAccessToken = require('../middlewares/verifyAccessToken_middleware')
+
+const verifyOwner = require('../middlewares/verifyOwner_middleware')
     /*
 
-        const verifyOwner = require('./middlewares/verifyOwner_middleware')
-        const upload = require('./middlewares/upload_middleware')
+            const upload = require('./middlewares/upload_middleware')
+       */
+const onlyAllowsOwner = [verifyAccessToken, verifyOwner]
 
-        const onlyAllowsOwner = [verifyAccessToken, verifyOwner]
-    */
 
 
 //Account
@@ -45,13 +45,14 @@ router.patch('/card/raise/:id', verifyAccessToken, CardAccountsController.raise)
 
 
 //Usuario logaDO
-router.get('/:clientId/:id', AccountsController.bindMethod('show'));
+router.get('/:clientId/:id', onlyAllowsOwner, AccountsController.bindMethod('show'));
 
 //account raise
-router.patch('/:clientId/raise/:id', AccountsController.raise);
+router.patch('/:clientId/raise/:id', onlyAllowsOwner, AccountsController.raise);
 
 //account transfer
-router.patch('/:clientId/transfer/:id', AccountsController.transfer);
+router.patch('/:clientId/transfer/:id', onlyAllowsOwner, AccountsController.transfer);
+
 
 router.get('/moviment/:id', AccountsController.movimentFindById)
 
