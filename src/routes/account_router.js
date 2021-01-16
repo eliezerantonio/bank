@@ -54,6 +54,7 @@ router.patch('/:clientId/raise/:id', onlyAllowsOwner, AccountsController.raise);
 router.patch('/:clientId/transfer/:id', onlyAllowsOwner, AccountsController.transfer);
 
 
+router.get('/moviment/:id', AccountsController.movimentFindById)
 
 
 

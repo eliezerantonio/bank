@@ -277,6 +277,14 @@ class AccountsController extends ResourceController {
 
     }
 
+    async movimentFindById(req, res, next) {
+        try {
+            const moviment = await Moviment.verifyMoviment(req.params.id);
+            return successResponse(res, 200, null, moviment);
+        } catch (error) {
+
+        }
+    }
 }
 
 module.exports = new AccountsController

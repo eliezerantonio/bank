@@ -16,12 +16,14 @@ module.exports = (sequelize, DataTypes) => {
                 }),
 
                 this.belongsTo(models.Moviment, {
+
                     foreignKey: 'EmployeeId',
                     targetKey: 'id',
                     as: 'Employee'
                 })
 
         }
+
 
         static async search(query) {
 
@@ -52,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
                     offset: offset
                 }
             };
-        }
+
     };
     Moviment.init({
 
