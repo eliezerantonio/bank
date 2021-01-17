@@ -42,8 +42,6 @@ router.patch('/card/raise/:id', CardAccountsController.raise)
 
 
 
-
-
 //Usuario logaDO
 router.get('/:clientId/:id', AccountsController.bindMethod('show'));
 
