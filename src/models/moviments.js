@@ -81,6 +81,9 @@ module.exports = (sequelize, DataTypes) => {
                 }
             },
         },
+        employeeId: {
+            type: DataTypes.INTEGER,
+        },
         balance: {
             type: DataTypes.DOUBLE,
             allowNull: false,
