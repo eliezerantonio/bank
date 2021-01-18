@@ -42,8 +42,6 @@ router.patch('/card/raise/:id', verifyAccessToken, CardAccountsController.raise)
 
 
 
-
-
 //Usuario logaDO
 router.get('/:clientId/:id', onlyAllowsOwner, AccountsController.bindMethod('show'));
 
