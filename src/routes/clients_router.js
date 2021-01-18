@@ -6,8 +6,7 @@ const verifyAccessToken = require("../middlewares/verifyAccessToken_middleware")
 
 
 //LOGIN
-router.post('/login', ClientsController.bindMethod('login'));
-
+router.post('/login',verifyAccessToken,ClientsController.bindMethod('login'));
 //INDEX
 router.get('/', ClientsController.bindMethod('index'));
 //SHOW

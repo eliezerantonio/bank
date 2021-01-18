@@ -11,6 +11,34 @@ class ClientsController extends ResourceController {
         this.setModel(Client);
     }
 
+    async store(req, res,next){
+           //salvar o historico
+           try {
+            const entityOld = await Client.getId(req.params.id);
+            const entity = await HistoryClient.create({
+                clientId:entityOld.id,
+                employeeId: req.body.token.id,
+                description: "C",
+            });
+            console.log(entity);
+             successResponse(res, 200, null, entity)
+        } 
+        catch (error) {
+            if (error.name && error.name.includes('SequelizeValidation')) {
+                 invalidResponse(res, 400, `Dados informados sao invalidos `, error)
+
+            } else if (error.name && error.name.includes("SequelizeUniqueConstraintError")) {
+                 invalidResponse(res, 400, `Dados informados ja existentes `, error)
+            }
+            console.log(error)
+             errorResponse(res, 500, `Não foi possivel criar o historico do Cliente`, error)
+
+        }
+        return await super.store(req, res, next)
+
+        //salvar o historico  
+    }
+
     async login(req, res, next) {
         try {
             const { email, password } = req.body;
@@ -33,36 +61,6 @@ class ClientsController extends ResourceController {
         }
         return await super.update(req, res, next)
     }
-
-    async saveHistory (req,res,next){
-          //salvar o historico
-          try {
-            const entity = await HistoryClient.create({
-                clientId: entityOld.id,
-                employeeId: req.body.token.id,
-            });
-
-            console.log(entity);
-
-            return successResponse(res, 200, null, entity)
-
-        } catch (error) {
-            if (error.name && error.name.includes('SequelizeValidation')) {
-                return invalidResponse(res, 400, `Dados informados sao invalidos `, error)
-
-            } else if (error.name && error.name.includes("SequelizeUniqueConstraintError")) {
-                return invalidResponse(res, 400, `Dados informados ja existentes `, error)
-            }
-            console.log(error)
-            return errorResponse(res, 500, `Não foi possivel criar o historico do Cliente`, error)
-
-
-        }
-
-        //salvar o historico
-   
-    }
- 
 }
 
 module.exports = new ClientsController

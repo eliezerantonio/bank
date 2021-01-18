@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   HistoryClient.init({
+    description: DataTypes.STRING,
     clientId:
      {
      type:DataTypes.INTEGER,
