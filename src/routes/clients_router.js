@@ -6,13 +6,13 @@ const verifyAccessToken = require("../middlewares/verifyAccessToken_middleware")
 
 
 //LOGIN
-router.post('/login',verifyAccessToken,ClientsController.bindMethod('login'));
+router.post('/login', verifyAccessToken, ClientsController.bindMethod('login'));
 //INDEX
-router.get('/', ClientsController.bindMethod('index'));
+router.get('/', verifyAccessToken, ClientsController.bindMethod('index'));
 //SHOW
-router.get('/:id', ClientsController.bindMethod('show'));
+router.get('/:id', verifyAccessToken, ClientsController.bindMethod('show'));
 //STORE
-router.post('/', ClientsController.bindMethod('store'));
+router.post('/', verifyAccessToken, ClientsController.bindMethod('store'));
 
 //UPDATE
 router.patch('/:id', verifyAccessToken, ClientsController.bindMethod('update'));

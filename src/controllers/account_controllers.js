@@ -29,26 +29,20 @@ class AccountsController extends ResourceController {
                         if (entityNew !== "") {
                             //salvar movimento
                             try {
+                                const idEmpo = await req.body.token.id;
+
                                 const entity = await Moviment.create({
                                     accountId: entityOld.id,
-                                    employeeId: req.body.token.id,
+                                    employeeId: parseInt(idEmpo),
                                     balance: req.body.balance,
                                     operation: "d",
                                     state: entityOld.state
                                 });
+                                console.log(entity);
 
 
                             } catch (error) {
-                                if (error.name && error.name.includes('SequelizeValidation')) {
-                                    return invalidResponse(res, 400, `Dados informados sao invalidos `, error)
-
-                                } else if (error.name && error.name.includes("SequelizeUniqueConstraintError")) {
-                                    return invalidResponse(res, 400, `Dados informados ja existentes `, error)
-                                }
                                 console.log(error)
-                                return errorResponse(res, 500, `Não foi possivel criar Movimentos`, error)
-
-
                             }
 
                             //fim salvar movimento
