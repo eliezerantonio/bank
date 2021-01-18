@@ -66,27 +66,27 @@ module.exports = (sequelize, DataTypes) => {
 
         static async verifyLogin(email, password) {
             try {
-                let Client = await Client.findOne({
+                let client = await Client.findOne({
                     where: {
                         email: email
                     }
                 });
-                if (!Client) {
+                if (!client) {
                     throw new Error("Email nao enontrado");
                 }
-                if (!bcrypt.compareSync(password, Client.password)) {
+                if (!bcrypt.compareSync(password, client.password)) {
                     throw new Error("Senha nao confere");
                 }
 
                 //verificar se usuario esta logado
                 let token = jwt.sign({
-                    id: Client.id
+                    id: client.id
                 }, SECRET, {
                     expiresIn: '1d'
                 })
 
                 return {
-                    Client: Client,
+                    client: client,
                     token: token
                 }
             } catch (error) {
@@ -112,12 +112,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             validate: {
                 is: {
-                    args: ["^[a-z ]+$", 'i'],
-                    msg: "O nome devr conter apenas caracteres de A-Z"
+                    args: [/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/],
+                    msg: "O nome de conter apenas caracteres de A-Z"
                 },
                 len: {
                     args: [6, 20],
-
                     msg: "Nome: Minimo deve conter 6 caracteres"
                 },
                 contains: {
@@ -259,6 +258,15 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         sequelize,
         modelName: 'Client',
+        hooks: {
+            beforeSave: (client, options) => {
+                try {
+                    bcrypt.getRounds(client.password)
+                } catch (error) {
+                    client.password = bcrypt.hashSync(client.password, 10)
+                }
+            }
+        }
     });
     return Client;
 };
