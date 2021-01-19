@@ -6,7 +6,7 @@ const verifyAccessToken = require("../middlewares/verifyAccessToken_middleware")
 
 
 //LOGIN
-router.post('/login', verifyAccessToken, ClientsController.bindMethod('login'));
+router.post('/login', ClientsController.bindMethod('login'));
 //INDEX
 router.get('/', verifyAccessToken, ClientsController.bindMethod('index'));
 //SHOW
@@ -18,6 +18,8 @@ router.post('/', verifyAccessToken, ClientsController.bindMethod('store'));
 router.patch('/:id', verifyAccessToken, ClientsController.bindMethod('update'));
 //REMOVE
 router.delete('/:id', verifyAccessToken, ClientsController.bindMethod('remove'));
+
+
 
 
 module.exports = router;
