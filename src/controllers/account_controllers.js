@@ -1,4 +1,5 @@
 const Account = require('../models').Account
+const HistoryAccount = require('../models').HistoryAccount
 const Moviment = require('../models').Moviment
 const successResponse = require('../responses/success_response');
 const errorResponse = require('../responses/error_response');
@@ -10,6 +11,21 @@ class AccountsController extends ResourceController {
     constructor() {
         super()
         this.setModel(Account);
+    }
+
+    async update(req, res, next) {
+        try {
+            const idEmpo = await req.body.token.id;
+            await HistoryAccount.create({
+                accountId: req.params.id,
+                employeeId: parseInt(idEmpo),
+                description: "U",
+            });
+        } catch (error) {
+
+        }
+
+        return await super.update(req, res, next)
     }
 
 
