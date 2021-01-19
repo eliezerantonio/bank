@@ -6,14 +6,14 @@ const verifyAccessToken = require("../middlewares/verifyAccessToken_middleware")
 
 
 //INDEX
-router.get('/', LoanController.bindMethod('index'));
+router.get('/', verifyAccessToken, LoanController.bindMethod('index'));
 //SHOW
-router.get('/:id', LoanController.bindMethod('show'));
+router.get('/:id', verifyAccessToken, LoanController.bindMethod('show'));
 //STORE
-router.post('/', LoanController.bindMethod('store'));
+router.post('/', verifyAccessToken, LoanController.bindMethod('store'));
 //UPDATE
-router.patch('/:id', LoanController.bindMethod('update'));
+router.patch('/:id', verifyAccessToken, LoanController.bindMethod('update'));
 //REMOVE
-router.delete('/:id', LoanController.bindMethod('remove'));
+router.delete('/:id', verifyAccessToken, LoanController.bindMethod('remove'));
 
 module.exports = router;
