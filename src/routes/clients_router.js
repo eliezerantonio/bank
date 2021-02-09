@@ -10,7 +10,7 @@ router.post('/login', ClientsController.bindMethod('login'));
 //INDEX
 router.get('/', verifyAccessToken, ClientsController.bindMethod('index'));
 //SHOW
-router.get('/:id', verifyAccessToken, ClientsController.bindMethod('show'));
+router.get('/:id',  ClientsController.bindMethod('show'));
 //STORE
 router.post('/', verifyAccessToken, ClientsController.bindMethod('store'));
 

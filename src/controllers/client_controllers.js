@@ -18,7 +18,6 @@ class ClientsController extends ResourceController {
 
 
             const result = await Client.verifyLogin(email, password)
-            console.log(result)
             if (result !== "") {
                 HistorySession.create({ clientId: result.client.id, employeeId: null, description: 'Nova sessão iniciada', })
                 successResponse(res, 200, "Usuario autenticado com sucesso!", result)
