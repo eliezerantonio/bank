@@ -2,8 +2,8 @@
     "development": {
 
 
-        "username": "higino",
-        "password": "8225",
+        "username": "root",
+        "password": "1223",
 
         "database": "Bank",
         "host": "127.0.0.1",
