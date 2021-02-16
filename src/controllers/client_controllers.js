@@ -32,15 +32,36 @@ class ClientsController extends ResourceController {
 
 
     async update(req, res, next) {
-            const idEmpo = await req.body.token.id;
-            await HistoryClient.create({
-                clientId: req.params.id,
-                employeeId: parseInt(idEmpo),
-                description: "U",
-            });
+        const idEmpo = await req.body.token.id;
+        await HistoryClient.create({
+            clientId: req.params.id,
+            employeeId: parseInt(idEmpo),
+            description: "U",
+        });
 
 
-            return await super.update(req, res, next)
+        return await super.update(req, res, next)
+    }
+
+    async delete(req, res, next) {
+            try {
+
+                const entityOld = await this.Client.getId(req.params.id);
+
+                const entityNew = await entityOld.update(req.body);
+                return successResponse(res, 200, `Sucesso ao eliminar`, entityNew)
+
+            } catch (error) {
+                if (error.name && error.name.includes('SequelizeValidation')) {
+                    return invalidResponse(res, 400, `Dados informados sao invalidos `, error)
+
+                }
+                return errorResponse(res, 500, `Não foi possivel Eliminar`, error)
+
+
+            }
+
+
         }
         //REMOVE
     async remove(req, res, next) {
