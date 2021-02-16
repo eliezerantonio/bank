@@ -28,7 +28,11 @@ module.exports = (sequelize, DataTypes) => {
             if (query.email) where.email = q.query.email;
 
             const entities = await Employee.findAndCountAll({
-                where: where,
+                where: {
+                    state: {
+                        [Op.like]: 1
+                    }
+                },
                 limit: limit,
                 offset: offset
             })

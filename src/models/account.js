@@ -37,7 +37,11 @@ module.exports = (sequelize, DataTypes) => {
 
 
             const entities = await Account.findAndCountAll({
-                where: where,
+                where: {
+                    state: {
+                        [Op.like]: 1
+                    }
+                },
                 limit: limit,
                 offset: offset
             })

@@ -26,7 +26,13 @@ class ResourceController {
                 meta
             } = await this.model.search(req.query);
 
-            return successResponse(res, 200, null, entities, meta);
+            if (entities !== "") {
+
+                return successResponse(res, 200, null, entities, meta);
+            } else {
+
+                return successResponse(res, 404, "Nao encontrado", null, meta);
+            }
 
 
         } catch (error) {
@@ -39,8 +45,14 @@ class ResourceController {
 
         try {
             const entity = await this.model.getId(req.params.id);
+            console.log(entity)
+            if (entity !== null) {
 
-            return successResponse(res, 200, null, entity)
+                return successResponse(res, 200, null, entity)
+            } else {
+
+                return errorResponse(res, 404, "Não encontrado", null, null);
+            }
         } catch (error) {
             console.log(error)
             return errorResponse(res, 404, `Não foi possivel recuperar entidade pelo id em ${this.model.getTableName()}`, error)
@@ -73,11 +85,18 @@ class ResourceController {
     async update(req, res, next) {
         try {
 
+
             const entityOld = await this.model.getId(req.params.id);
 
             const entityNew = await entityOld.update(req.body);
-            return successResponse(res, 200, `Entidade aualizada com sucesso em ${this.model.getTableName() }`, entityNew)
 
+            if (req.body.state === 0) {
+                return successResponse(res, 200, `Entidade Eliminada com sucesso em ${this.model.getTableName() }`, entityNew)
+
+            } else {
+                return successResponse(res, 200, `Entidade autalizada com sucesso em ${this.model.getTableName() }`, entityNew)
+
+            }
         } catch (error) {
             if (error.name && error.name.includes('SequelizeValidation')) {
                 return invalidResponse(res, 400, `Dados informados sao invalidos `, error)
