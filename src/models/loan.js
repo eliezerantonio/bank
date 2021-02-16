@@ -31,7 +31,11 @@ module.exports = (sequelize, DataTypes) => {
             }
 
             const { rows, count } = await Loan.findAndCountAll({
-                where: where,
+                where: {
+                    state: {
+                        [Op.like]: 1
+                    }
+                },
                 limit: limit,
                 offset: offset
             });

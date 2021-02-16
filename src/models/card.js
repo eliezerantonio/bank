@@ -22,7 +22,11 @@ module.exports = (sequelize, DataTypes) => {
             }
 
             const { rows, count } = await Card.findAndCountAll({
-                where: where,
+                where: {
+                    state: {
+                        [Op.like]: 1
+                    }
+                },
                 limit: limit,
                 offset: offset
             });
@@ -37,35 +41,35 @@ module.exports = (sequelize, DataTypes) => {
             }
 
         }
-        
+
         static async getId(id) {
             return await Card.findByPk(id)
         }
 
     };
     Card.init({
-        description: DataTypes.STRING,
-        state: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: true,
-            validate: {
-                isIn: {
-                    args: [
-                        [
-                            false, //
-                            true, //Básico
+            description: DataTypes.STRING,
+            state: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: true,
+                validate: {
+                    isIn: {
+                        args: [
+                            [
+                                false, //
+                                true, //Básico
 
-                        ]
-                    ],
-                    msg: 'São aceitos apenas dois estados 0-Nao activo 1 - Activo,'
+                            ]
+                        ],
+                        msg: 'São aceitos apenas dois estados 0-Nao activo 1 - Activo,'
+                    }
                 }
             }
-        }
-    }, 
-    
-    {
-        sequelize,
-        modelName: 'Card',
-    });
+        },
+
+        {
+            sequelize,
+            modelName: 'Card',
+        });
     return Card;
 };
