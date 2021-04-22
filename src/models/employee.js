@@ -169,6 +169,7 @@ module.exports = (sequelize, DataTypes) => {
             }
 
         },
+        pic: DataTypes.STRING,
         genre: {
             type: DataTypes.STRING,
             allowNull: false,

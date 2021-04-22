@@ -154,6 +154,7 @@ module.exports = (sequelize, DataTypes) => {
                 }
             }
         },
+        pic: DataTypes.STRING,
         state: {
             type: DataTypes.BOOLEAN,
             defaultValue: true,

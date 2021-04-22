@@ -29,9 +29,15 @@ class ClientsController extends ResourceController {
         }
     }
 
-
-
     async update(req, res, next) {
+        if (req.file) {
+            req.body.pic = req.protocol + '://' + req.headers.host + '/uploads/' + req.file.filename
+        }
+
+        return await super.update(req, res, next)
+    }
+
+    /* async update(req, res, next) {
         const idEmpo = await req.body.token.id;
         await HistoryClient.create({
             clientId: req.params.id,
@@ -41,7 +47,7 @@ class ClientsController extends ResourceController {
 
 
         return await super.update(req, res, next)
-    }
+    }*/
 
     async delete(req, res, next) {
             try {
