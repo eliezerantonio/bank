@@ -63,7 +63,7 @@ module.exports = (sequelize, DataTypes) => {
                     }
                 });
                 if (!employee) {
-                    throw new Error("Email nao enontrado");
+                    throw new Error("Email nao encontrado");
                 }
                 if (!bcrypt.compareSync(password, employee.password)) {
                     throw new Error("Senha nao confere");

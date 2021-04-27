@@ -17,7 +17,7 @@ router.get('/:id', ClientsController.bindMethod('show'));
 router.post('/', ClientsController.bindMethod('store'));
 
 //UPDATE
-router.patch('/:id', verifyAccessToken, upload.single('pic'), ClientsController.bindMethod('update'));
+router.patch('/:id', upload.single('pic'), ClientsController.bindMethod('update'));
 //REMOVE
 router.delete('/:id', verifyAccessToken, ClientsController.bindMethod('remove'));
 
