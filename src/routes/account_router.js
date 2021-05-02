@@ -18,7 +18,7 @@ const onlyAllowsOwner = [verifyAccessToken, verifyOwner]
 router.get('/', verifyAccessToken, AccountsController.bindMethod('index'));
 
 // FUNCIONARIO
-router.get('/:id', verifyAccessToken, AccountsController.bindMethod('show'));
+router.get('/:id', AccountsController.bindMethod('show'));
 /* account Store */
 router.post('/', verifyAccessToken, AccountsController.bindMethod('store'));
 
@@ -32,7 +32,7 @@ router.patch('/deposit/:id', verifyAccessToken, AccountsController.deposit);
 router.patch('/raise/:id', verifyAccessToken, AccountsController.raise);
 
 //account transfer
-router.patch('/transfer/:id', verifyAccessToken, AccountsController.transfer);
+router.patch('/transfer/:id', AccountsController.transfer);
 // account REMOVE
 router.delete('/:id', verifyAccessToken, AccountsController.bindMethod('remove'));
 

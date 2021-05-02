@@ -13,6 +13,9 @@ module.exports = {
                 allowNull: false,
 
             },
+            pic: {
+                type: Sequelize.STRING
+            },
             genre: {
                 type: Sequelize.STRING,
                 allowNull: false,
@@ -28,9 +31,9 @@ module.exports = {
 
             },
             state: {
-                allowNull:false,
+                allowNull: false,
                 type: Sequelize.BOOLEAN,
-                },
+            },
             password: {
                 type: Sequelize.STRING,
                 allowNull: false,

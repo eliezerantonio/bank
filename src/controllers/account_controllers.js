@@ -1,6 +1,6 @@
 const Account = require('../models').Account
 const HistoryAccount = require('../models').HistoryAccount
-const Moviment = require('../models').Moviment
+const Moviment = require('../models').Moviment;
 const successResponse = require('../responses/success_response');
 const errorResponse = require('../responses/error_response');
 const invalidResponse = require('../responses/invalid_response');
@@ -195,11 +195,20 @@ class AccountsController extends ResourceController {
         }
         // REALIZAR TRANSFERÊNCIA
     async transfer(req, res, next) {
+        const destinAccount = await Account.getId(req.body.id);
+        if (destinAccount === null) {
+
+            console.log(destinAccount)
+            return errorResponse(res, 404, `Conta destinataria não existe`, "Não existe")
+                // conta destino
+        }
 
         try {
 
             //consta origem
             const entityOld = await Account.getId(req.params.id);
+
+
 
             //so deposita de tiver saldo
             if (entityOld.balance >= req.body.balance && req.body.balance > 0) {
@@ -211,13 +220,13 @@ class AccountsController extends ResourceController {
 
                 // Transferindo
                 try {
-                    await Moviment.create({
-                        accountId: entityOld.id,
-                        employeeId: req.body.token.id,
-                        balance: req.body.balance,
-                        operation: "t",
-                        state: entityOld.state
-                    });
+                    // await Moviment.create({
+                    //     accountId: entityOld.id,
+                    //     employeeId: req.body.token.id,
+                    //     balance: req.body.balance,
+                    //     operation: "t",
+                    //     state: entityOld.state
+                    // });
 
 
                 } catch (error) {
@@ -247,13 +256,13 @@ class AccountsController extends ResourceController {
 
                             //Conta Destino do valor transferido
                             try {
-                                await Moviment.create({
-                                    accountId: entityOld.id,
-                                    employeeId: req.body.token.id,
-                                    balance: req.body.balance,
-                                    operation: "t",
-                                    state: entityOld.state
-                                });
+                                // await Moviment.create({
+                                //     accountId: entityOld.id,
+                                //     employeeId: req.body.token.id,
+                                //     balance: req.body.balance,
+                                //     operation: "t",
+                                //     state: entityOld.state
+                                // });
 
 
                             } catch (error) {

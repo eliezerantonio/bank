@@ -45,12 +45,10 @@ class ResourceController {
 
         try {
             const entity = await this.model.getId(req.params.id);
-            console.log(entity)
-            if (entity !== null) {
 
+            if (entity !== null) {
                 return successResponse(res, 200, null, entity)
             } else {
-
                 return errorResponse(res, 404, "Não encontrado", null, null);
             }
         } catch (error) {

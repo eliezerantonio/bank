@@ -13,6 +13,9 @@ module.exports = {
                 type: Sequelize.STRING,
 
             },
+            pic: {
+                type: Sequelize.STRING
+            },
             email: {
                 type: Sequelize.STRING,
                 allowNull: false,
@@ -27,9 +30,9 @@ module.exports = {
                 type: Sequelize.STRING
             },
             state: {
-                allowNull:false,
+                allowNull: false,
                 type: Sequelize.BOOLEAN,
-                },
+            },
             accessLevel: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
