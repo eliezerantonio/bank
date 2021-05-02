@@ -1,6 +1,6 @@
 const Account = require('../models').Account
 const HistoryAccount = require('../models').HistoryAccount
-const Moviment = require('../models').Moviment
+const Moviment = require('../models').Moviment;
 const successResponse = require('../responses/success_response');
 const errorResponse = require('../responses/error_response');
 const invalidResponse = require('../responses/invalid_response');

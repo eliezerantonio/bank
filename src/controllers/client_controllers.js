@@ -21,7 +21,7 @@ class ClientsController extends ResourceController {
             if (result !== "") {
                 HistorySession.create({ clientId: result.client.id, employeeId: null, description: 'Nova sessão iniciada', })
                 successResponse(res, 200, "Usuario autenticado com sucesso!", result)
-
+                return;
             }
         } catch (error) {
             console.log(error);
