@@ -63,11 +63,7 @@ class ClientsController extends ResourceController {
 
                 }
                 return errorResponse(res, 500, `Não foi possivel Eliminar`, error)
-
-
             }
-
-
         }
         //REMOVE
     async remove(req, res, next) {

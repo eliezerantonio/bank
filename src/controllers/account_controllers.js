@@ -45,16 +45,7 @@ class AccountsController extends ResourceController {
                         if (entityNew !== "") {
                             //salvar movimento
                             try {
-                                const idEmpo = await req.body.token.id;
 
-                                const entity = await Moviment.create({
-                                    accountId: entityOld.id,
-                                    employeeId: parseInt(idEmpo),
-                                    balance: req.body.balance,
-                                    operation: "d",
-                                    state: entityOld.state
-                                });
-                                console.log(entity);
 
 
                             } catch (error) {
@@ -106,13 +97,13 @@ class AccountsController extends ResourceController {
 
                     //salvar movimento
                     try {
-                        await Moviment.create({
+                        /* await Moviment.create({
                             accountId: entityOld.id,
                             employeeId: req.body.token.id,
                             balance: req.body.balance,
                             operation: "r",
                             state: entityOld.state
-                        });
+                        });*/
 
 
                     } catch (error) {

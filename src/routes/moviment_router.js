@@ -12,7 +12,7 @@ const verifyOwner = require('../middlewares/verifyOwner_middleware')
 const onlyAllowsOwner = [verifyAccessToken, verifyOwner]
 
 
-router.get('/:id', verifyAccessToken, MovimentsController.movimentFindById);
+router.get('/:id', MovimentsController.movimentFindById);
 
 
 
