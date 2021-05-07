@@ -293,7 +293,7 @@ class AccountsController extends ResourceController {
             const moviment = await Moviment.verifyMoviment(req.params.id);
             return successResponse(res, 200, null, moviment);
         } catch (error) {
-
+            throw error;
         }
     }
 }

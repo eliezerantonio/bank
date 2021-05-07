@@ -11,7 +11,7 @@ const verifyOwner = require('../middlewares/verifyOwner_middleware')
 
             const upload = require('./middlewares/upload_middleware')
        */
-const onlyAllowsOwner = [verifyAccessToken, verifyOwner]
+const onlyAllowsOwner = [verifyAccessTokenClient, verifyOwner]
 
 
 
@@ -44,13 +44,13 @@ router.patch('/card/raise/:id', verifyAccessToken, CardAccountsController.raise)
 
 
 //Usuario logaDO
-router.get('/:clientId/:id', onlyAllowsOwner, AccountsController.bindMethod('show'));
+router.get('/client/:id', onlyAllowsOwner, AccountsController.bindMethod('show'));
 
 //account raise
-router.patch('/:clientId/raise/:id', onlyAllowsOwner, AccountsController.raise);
+router.patch('/client/raise/:id', onlyAllowsOwner, AccountsController.raise);
 
 //account transfer
-router.patch('/:clientId/transfer/:id', onlyAllowsOwner, AccountsController.transfer);
+router.patch('/client/transfer/:id', onlyAllowsOwner, AccountsController.transfer);
 
 
 router.get('/moviment/:id', AccountsController.movimentFindById)
