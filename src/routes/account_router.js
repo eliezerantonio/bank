@@ -4,13 +4,14 @@ var router = express.Router();
 const AccountsController = require('../controllers/account_controllers');
 const CardAccountsController = require('../controllers/cardaccount_controllers')
 const verifyAccessToken = require('../middlewares/verifyAccessToken_middleware')
+const verifyAccessTokenClient = require('../middlewares/verifyAccessTokenClient_middleware')
 
 const verifyOwner = require('../middlewares/verifyOwner_middleware')
     /*
 
             const upload = require('./middlewares/upload_middleware')
        */
-const onlyAllowsOwner = [verifyAccessToken, verifyOwner]
+const onlyAllowsOwner = [verifyAccessTokenClient, verifyOwner]
 
 
 
@@ -18,7 +19,7 @@ const onlyAllowsOwner = [verifyAccessToken, verifyOwner]
 router.get('/', verifyAccessToken, AccountsController.bindMethod('index'));
 
 // FUNCIONARIO
-router.get('/:id', AccountsController.bindMethod('show'));
+router.get('/:id', verifyAccessToken, AccountsController.bindMethod('show'));
 /* account Store */
 router.post('/', verifyAccessToken, AccountsController.bindMethod('store'));
 
@@ -32,7 +33,7 @@ router.patch('/deposit/:id', verifyAccessToken, AccountsController.deposit);
 router.patch('/raise/:id', verifyAccessToken, AccountsController.raise);
 
 //account transfer
-router.patch('/transfer/:id', AccountsController.transfer);
+router.patch('/transfer/:id', verifyAccessToken, AccountsController.transfer);
 // account REMOVE
 router.delete('/:id', verifyAccessToken, AccountsController.bindMethod('remove'));
 
@@ -43,13 +44,13 @@ router.patch('/card/raise/:id', verifyAccessToken, CardAccountsController.raise)
 
 
 //Usuario logaDO
-router.get('/:clientId/:id', onlyAllowsOwner, AccountsController.bindMethod('show'));
+router.get('/client/:id', onlyAllowsOwner, AccountsController.bindMethod('show'));
 
 //account raise
-router.patch('/:clientId/raise/:id', onlyAllowsOwner, AccountsController.raise);
+router.patch('/client/raise/:id', onlyAllowsOwner, AccountsController.raise);
 
 //account transfer
-router.patch('/:clientId/transfer/:id', onlyAllowsOwner, AccountsController.transfer);
+router.patch('/client/transfer/:id', onlyAllowsOwner, AccountsController.transfer);
 
 
 router.get('/moviment/:id', AccountsController.movimentFindById)
