@@ -45,7 +45,13 @@ class AccountsController extends ResourceController {
                         if (entityNew !== "") {
                             //salvar movimento
                             try {
-
+ await Moviment.create({
+                            accountId: entityOld.id,
+                            employeeId: req.body.token.id,
+                            balance: req.body.balance,
+                            operation: "d",
+                            state: entityOld.state
+                        });
 
 
                             } catch (error) {
@@ -97,13 +103,13 @@ class AccountsController extends ResourceController {
 
                     //salvar movimento
                     try {
-                        /* await Moviment.create({
+                        await Moviment.create({
                             accountId: entityOld.id,
                             employeeId: req.body.token.id,
                             balance: req.body.balance,
                             operation: "r",
                             state: entityOld.state
-                        });*/
+                        });
 
 
                     } catch (error) {
@@ -211,13 +217,13 @@ class AccountsController extends ResourceController {
 
                 // Transferindo
                 try {
-                    // await Moviment.create({
-                    //     accountId: entityOld.id,
-                    //     employeeId: req.body.token.id,
-                    //     balance: req.body.balance,
-                    //     operation: "t",
-                    //     state: entityOld.state
-                    // });
+                    await Moviment.create({
+                        accountId: entityOld.id,
+                        employeeId: req.body.token.id,
+                        balance: req.body.balance,
+                        operation: "t",
+                        state: entityOld.state
+                    });
 
 
                 } catch (error) {
@@ -247,13 +253,13 @@ class AccountsController extends ResourceController {
 
                             //Conta Destino do valor transferido
                             try {
-                                // await Moviment.create({
-                                //     accountId: entityOld.id,
-                                //     employeeId: req.body.token.id,
-                                //     balance: req.body.balance,
-                                //     operation: "t",
-                                //     state: entityOld.state
-                                // });
+                                await Moviment.create({
+                                    accountId: entityOld.id,
+                                    employeeId: req.body.token.id,
+                                    balance: req.body.balance,
+                                    operation: "t",
+                                    state: entityOld.state
+                                });
 
 
                             } catch (error) {

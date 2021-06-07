@@ -15,7 +15,7 @@ const onlyAllowsOwner = [verifyAccessToken, verifyOwner];
 //LOGIN
 router.post('/login', ClientsController.bindMethod('login'));
 //INDEX
-router.get('/', verifyAccessToken, ClientsController.bindMethod('index'));
+router.get('/', ClientsController.bindMethod('index'));
 //SHOW
 router.get('/:id', verifyAccessToken, ClientsController.bindMethod('show'));
 //STORE
