@@ -217,7 +217,7 @@ class AccountsController extends ResourceController {
 
                 // Transferindo
                 try {
-                    await Moviment.create({
+                   await Moviment.create({
                         accountId: entityOld.id,
                         employeeId: req.body.token.id,
                         balance: req.body.balance,

@@ -24,18 +24,18 @@ router.get('/:id', verifyAccessToken, AccountsController.bindMethod('show'));
 router.post('/', verifyAccessToken, AccountsController.bindMethod('store'));
 
 //account UPDATE
-router.patch('/:id', verifyAccessToken, AccountsController.bindMethod('update'));
+router.patch('/:id', verifyAccessTokenClient, AccountsController.bindMethod('update'));
 
 //account deposit
-router.patch('/deposit/:id', verifyAccessToken, AccountsController.deposit);
+router.patch('/deposit/:id', verifyAccessTokenClient, AccountsController.deposit);
 
 //account raise
-router.patch('/raise/:id', verifyAccessToken, AccountsController.raise);
+router.patch('/raise/:id', verifyAccessTokenClient, AccountsController.raise);
 
 //account transfer
-router.patch('/transfer/:id', verifyAccessToken, AccountsController.transfer);
+router.patch('/transfer/:id', verifyAccessTokenClient, AccountsController.transfer);
 // account REMOVE
-router.delete('/:id', verifyAccessToken, AccountsController.bindMethod('remove'));
+router.delete('/:id', verifyAccessTokenClient, AccountsController.bindMethod('remove'));
 
 router.post('/card', verifyAccessToken, CardAccountsController.bindMethod('store'))
 router.patch('/card/deposit/:id', verifyAccessToken, CardAccountsController.deposit)
@@ -44,13 +44,13 @@ router.patch('/card/raise/:id', verifyAccessToken, CardAccountsController.raise)
 
 
 //Usuario logaDO
-router.get('/client/:id', onlyAllowsOwner, AccountsController.bindMethod('show'));
+router.get('/client/:id', verifyAccessTokenClient, AccountsController.bindMethod('show'));
 
 //account raise
-router.patch('/client/raise/:id', onlyAllowsOwner, AccountsController.raise);
+router.patch('/client/raise/:id', verifyAccessTokenClient, AccountsController.raise);
 
 //account transfer
-router.patch('/client/transfer/:id', onlyAllowsOwner, AccountsController.transfer);
+router.patch('/client/transfer/:id', verifyAccessTokenClient, AccountsController.transfer);
 
 
 router.get('/moviment/:id', AccountsController.movimentFindById)

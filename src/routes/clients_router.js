@@ -22,7 +22,7 @@ router.get('/:id', verifyAccessToken, ClientsController.bindMethod('show'));
 router.post('/', verifyAccessManager, ClientsController.bindMethod('store'));
 
 //UPDATE
-router.patch('/:id', onlyAllowsOwner, upload.single('pic'), ClientsController.bindMethod('update'));
+router.patch('/:id', verifyAccessToken, upload.single('pic'), ClientsController.bindMethod('update'));
 //REMOVE
 router.delete('/:id', verifyAccessManager, ClientsController.bindMethod('remove'));
 
